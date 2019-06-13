@@ -22,10 +22,11 @@ DSP_TARGETS=frs000df.dspf frs001df.dspf frs002df.dspf frs003df.dspf frs004df.dsp
 						frs404df.dspf frs405df.dspf frs406df.dspf frs407df.dspf frs408df.dspf \
 						frs409df.dspf frs410df.dspf frs411df.dspf frs412df.dspf frs413df.dspf
 
-all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS)
+CMD_TARGETS=useclear.cmd usereset.cmd
+
+all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS) $(CMD_TARGETS)
 
 ## Below is the dep list
-
 
 ## Below are the generic targets
 
@@ -34,6 +35,12 @@ all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS)
 	system "CPYFRMSTMF FROMSTMF('$<') TOMBR('/QSYS.lib/$(BIN_LIB).lib/QCLPSRC.file/$*.mbr') MBROPT(*REPLACE)"
 	liblist -a $(LIBLIST);\
 	system $(SYSTEM) "CRTBNDCL PGM($(BIN_LIB)/$*) SRCFILE($(BIN_LIB)/QCLPSRC)"
+	@touch $@
+
+%.cmd: qcmdsrc/%.cmd
+	-system -qi "CRTSRCPF FILE($(BIN_LIB)/QCMDSRC) RCDLEN(112)"
+	system "CPYFRMSTMF FROMSTMF('$<') TOMBR('/QSYS.lib/$(BIN_LIB).lib/QCMDSRC.file/$*.mbr') MBROPT(*REPLACE)"
+	system $(SYSTEM) "CRTCMD CMD($(BIN_LIB)/$*) PGM($(BIN_LIB)/$*) SRCFILE($(BIN_LIB)/QCMDSRC)"
 	@touch $@
 
 %.rpg: qrpgsrc/%.rpg
@@ -62,4 +69,4 @@ all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS)
 	@touch $@
 
 clean:
-	rm -f *.rpg *.mnudds *.mnucmd
+	rm -f *.rpg *.mnudds *.mnucmd *.dspf *.clp *.cmd
