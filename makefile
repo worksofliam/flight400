@@ -14,7 +14,13 @@ PGM_TARGETS=bcust.rpg bflght.rpg frs000.rpg frs001.rpg frs001.rpg frs001t.rpg \
 
 MENU_TARGETS=frsmain.mnucmd frsmant.mnucmd frsrept.mnucmd
 
-all: $(PGM_TARGETS) $(MENU_TARGETS)
+DSP_TARGETS=frs000df.dspf frs001df.dspf frs002df.dspf frs003df.dspf frs004df.dspf \
+		 				frs005df.dspf frs009df.dspf frs021df.dspf frs022df.dspf frs023df.dspf \
+						frs024df.dspf frs025df.dspf frs401df.dspf frs401df.dspf frs402df.dspf frs403df.dspf \
+						frs404df.dspf frs405df.dspf frs406df.dspf frs407df.dspf frs408df.dspf \
+						frs409df.dspf frs410df.dspf frs411df.dspf frs412df.dspf frs413df.dspf
+
+all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS)
 
 ## Below is the dep list
 
@@ -26,6 +32,12 @@ all: $(PGM_TARGETS) $(MENU_TARGETS)
 	system "CPYFRMSTMF FROMSTMF('$<') TOMBR('/QSYS.lib/$(BIN_LIB).lib/QRPGSRC.file/$*.mbr') MBROPT(*REPLACE)"
 	liblist -a $(LIBLIST);\
 	system $(SYSTEM) "CRTRPGPGM PGM($(BIN_LIB)/$*)"
+	@touch $@
+
+%.dspf: qddssrcd/%.dspf
+	-system -qi "CRTSRCPF FILE($(BIN_LIB)/QDSPFSRC) RCDLEN(112)"
+	system "CPYFRMSTMF FROMSTMF('$<') TOMBR('/QSYS.lib/$(BIN_LIB).lib/QDSPFSRC.file/$*.mbr') MBROPT(*REPLACE)"
+	system $(SYSTEM) "CRTDSPF FILE($(BIN_LIB)/$*) SRCFILE($(BIN_LIB)/QDSPFSRC)"
 	@touch $@
 
 %.mnudds: qmnusrc/%.mnudds
