@@ -1,0 +1,146 @@
+     A*%%TS  SD  19970812  124844  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      CA02(02)
+     A                                      CA03(03)
+     A                                      CF04(04)
+     A                                      CF06(06)
+     A                                      CF07(07)
+     A                                      CF08(08)
+     A                                      CF10(10)
+     A                                      CF11(11)
+     A                                      CA12(12)
+     A          R SELCTR
+     A*%%TS  SD  19970812  124844  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      CHANGE(88 'A FIELD WAS CHANGED')
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A                                  1  2'Flight Maintenance System - Flight-
+     A                                       Schedule'
+     A                                      DSPATR(HI)
+     A                                  1 64'System:'
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      DSPATR(HI)
+     A                                  3  2'Type choices, press F10 to continu-
+     A                                      e'
+     A                                      COLOR(BLU)
+     A                                  5  2'Flight Number. . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SFLGHT         9D 0B  5 31
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A                                      CHECK(RZ)
+     A                                  5 43'('
+     A                                      COLOR(BLU)
+     A                                  5 45'F4'
+     A                                      DSPATR(HI)
+     A                                  5 48'to Select )'
+     A                                      COLOR(BLU)
+     A                                  7  2'Day of the Week. . . . . . .'
+     A                                      COLOR(BLU)
+     A            SDYOWK         9A  B  7 31
+     A  52                                  DSPATR(RI)
+     A  52                                  DSPATR(PC)
+     A                                      CHECK(LC)
+     A                                  9  2'From City. . . . . .'
+     A                                      COLOR(BLU)
+     A            SFRCTY        16A  B  9 24TEXT('City Name')
+     A                                      CHECK(LC)
+     A  53                                  DSPATR(RI)
+     A  53                                  DSPATR(PC)
+     A                                  9 43'('
+     A                                      COLOR(BLU)
+     A                                  9 45'F6'
+     A                                      DSPATR(HI)
+     A                                  9 48'to Select )'
+     A                                      COLOR(BLU)
+     A                                 10  2'To City. . . . . . .'
+     A                                      COLOR(BLU)
+     A            STOCTY        16A  B 10 24TEXT('City Name')
+     A                                      CHECK(LC)
+     A  54                                  DSPATR(RI)
+     A  54                                  DSPATR(PC)
+     A                                 10 43'('
+     A                                      COLOR(BLU)
+     A                                 10 45'F7'
+     A                                      DSPATR(HI)
+     A                                 10 48'to Select )'
+     A                                      COLOR(BLU)
+     A            SFRINT         3A  B 11 33DSPATR(ND)
+     A                                      DSPATR(PR)
+     A            STOINT         3A  B 11 37DSPATR(ND)
+     A                                      DSPATR(PR)
+     A                                 12  2'Departure Time . . . . . .'
+     A                                      COLOR(BLU)
+     A            SDPTHH         2D  B 12 30
+     A  55                                  DSPATR(RI)
+     A  55                                  DSPATR(PC)
+     A                                 12 33':'
+     A                                      COLOR(BLU)
+     A            SDPTMM         2D  B 12 35
+     A  55                                  DSPATR(RI)
+     A            SDPTAP         2A  B 12 38
+     A  55                                  DSPATR(RI)
+     A                                 13  2'Arrival Time . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SARRHH         2D  B 13 30
+     A  56                                  DSPATR(RI)
+     A  56                                  DSPATR(PC)
+     A                                 13 33':'
+     A                                      COLOR(BLU)
+     A            SARRMM         2D  B 13 35
+     A  56                                  DSPATR(RI)
+     A            SARRAP         2A  B 13 38
+     A  56                                  DSPATR(RI)
+     A                                 15  2'Mileage. . . . . . . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SMILES         5D 0B 15 35TEXT('Flight Mileage')
+     A                                      CHECK(RZ)
+     A  57                                  DSPATR(RI)
+     A  57                                  DSPATR(PC)
+     A                                 17  2'Airline. . . . . . .'
+     A                                      COLOR(BLU)
+     A            SAIRLN        16A  B 17 24CHECK(LC)
+     A  58                                  DSPATR(RI)
+     A  58                                  DSPATR(PC)
+     A                                 17 43'('
+     A                                      COLOR(BLU)
+     A                                 17 45'F8'
+     A                                      DSPATR(HI)
+     A                                 17 48'to Select )'
+     A                                      COLOR(BLU)
+     A            SAIRIN         3A  B 18 37DSPATR(ND)
+     A                                      DSPATR(PR)
+     A                                 19  2'Seats Available. . . .   . . . .'
+     A                                      COLOR(BLU)
+     A            SSEATS         3D 0B 19 37TEXT('Flight Mileage')
+     A                                      CHECK(RZ)
+     A  59                                  DSPATR(RI)
+     A  59                                  DSPATR(PC)
+     A                                 21  2'Ticket Price . . . . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SPRICE         3D  B 21 37TEXT('Flight Mileage')
+     A  60                                  DSPATR(RI)
+     A  60                                  DSPATR(PC)
+     A                                 23  2'F2=Refresh  F3=Exit  F10=Add/Updat-
+     A                                      e Selection  F11=Delete Selection'
+     A                                      COLOR(BLU)
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      SFLSIZ(4)
+     A                                      SFLPAG(1)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ

@@ -1,0 +1,11 @@
+                                            UNIQUE
+                R ORDERS
+                  AGENT_NO       9B 0       ALWNULL
+                  AGENT_NAME    64A         ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  AGENT00001    64A         ALWNULL
+                                            COLHDG('AGENT_PASSWORD')
+                                            CCSID(37)
+                                            VARLEN
+                K AGENT_NO

@@ -1,0 +1,101 @@
+     A*%%TS  SD  19970812  123530  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(FLGHT400/FLIGHTSZ)
+     A                                      MSGALARM
+     A                                      PRINT
+     A                                      INDARA
+     A                                      HELP
+     A                                      CF03
+     A                                      CF09
+     A                                      CF12
+     A                                      ROLLUP
+     A*
+     A          R FRSWIN
+     A*%%TS  SD  19970812  093046  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(2 29 20 48)
+     A                                      WDWBORDER((*COLOR WHT) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A*
+     A          R SFL                       SFL
+     A*%%TS  SD  19970812  115628  TAFORD      REL-V3R2M0  5763-PW1
+     A            MILES     R    5D00H      REFFLD(FLGHTR/MILES FLGHT400/FLIGHT-
+     A                                      SZ)
+     A            SEATS     R    3D00H      REFFLD(FLGHTR/SEATS FLGHT400/FLIGHT-
+     A                                      SZ)
+     A            FRCITY    R   16   H      REFFLD(FLGHTR/DPCNAM FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            TOCITY    R   16   H      REFFLD(FLGHTR/ARCNAM FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            AIRLNF    R   16   H      REFFLD(FLGHTR/AIRLNM FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            DYOFW9    R    9   H      REFFLD(FLGHTR/DYOFWK FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            SELIO          1A  I  8  2CHKMSGID(FRS0028 FLGHT400/FRSMSGF)
+     A                                      VALUES(' ' '1')
+     A            AIRLNM    R    3   O  8  4REFFLD(FLGHTR/AIRLNM FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            FLGHTN    R    7   O  8  8REFFLD(FLGHTR/FLGHTN FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            DYOFWK    R    2   O  8 16REFFLD(FLGHTR/DYOFWK FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            DPCINT         3A  O  8 19
+     A            DPTIME    R    8   O  8 23REFFLD(FLGHTR/DPTIME FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            ARCINT         3A  O  8 32
+     A            ARTIME    R    8   O  8 36REFFLD(FLGHTR/ARTIME FLGHT400/FLIGH-
+     A                                      TSZ)
+     A            PRICE     R    3   O  8 45REFFLD(FLGHTR/TCKTPR FLGHT400/FLIGH-
+     A                                      TSZ)
+     A*
+     A          R SFLCTL                    SFLCTL(SFL)
+     A*%%TS  SD  19970812  123530  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      SFLSIZ(0010)
+     A                                      SFLPAG(0009)
+     A                                      WINDOW(FRSWIN)
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A  42                                  SFLDSP
+     A                                      SFLDSPCTL
+     A  40                                  SFLCLR
+     A  99                                  SFLEND(*MORE)
+     A  60                                  SFLMSG('Roll key not allowed' 60)
+     A            SFLPS          4S 0H      SFLRCDNBR
+     A                                  1 13'FLIGHT SELECTION WINDOW'
+     A                                      DSPATR(HI)
+     A                                  3  2'Position To:'
+     A                                      COLOR(BLU)
+     A            SEARCH         7D 0I  3 16CHECK(RZ)
+     A                                  5  2'1=Select'
+     A                                      COLOR(BLU)
+     A                                  7  2'1 ARL Flight# Dy From/Departs To/A-
+     A                                      rrives   $$$'
+     A                                      DSPATR(HI)
+     A*
+     A          R FKEYS
+     A*%%TS  SD  19970811  214619  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(FRSWIN)
+     A                                      OVERLAY
+     A                                 19  2'F3=Exit'
+     A                                      COLOR(BLU)
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(13)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ(10)
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      OVERLAY
+     A                                      SFLSIZ(2)
+     A                                      SFLPAG(1)
+     A                                      WINDOW(FRSWIN)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ(10)
+     A          R DUMMY                     ASSUME
+     A                                      PUTOVR
+     A                                  1  2' '
+     A                                      DSPATR(ND)

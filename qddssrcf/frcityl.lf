@@ -1,0 +1,6 @@
+                                            UNIQUE
+                R FRCTYL                    PFILE(FRCITY)
+                  FRCNAM    R
+                  FRCINT    R
+                  FRCALN    R
+                K FRCINT

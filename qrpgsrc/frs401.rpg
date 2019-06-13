@@ -1,0 +1,289 @@
+     FAGENTSL IF  F     136 66AI     5 DISK
+     FFRS401DFCF  E                    WORKSTN      KINFDS WSDS
+     F                                        SFLRN KSFILE SFL
+     I*
+     IAGENTSL NS  01
+     I                                    B   1   40AGNMBR
+     I                                        5  70 AGNAME
+     I                                       71 136 AGPASS
+     I*
+     I              X'31'                 C         @F01
+     I              X'33'                 C         @F03
+     I              X'39'                 C         @F09
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F3'                 C         @HELP
+     I              X'F4'                 C         @PAGUP
+     I              X'F5'                 C         @PAGDN
+     I              X'F6'                 C         @PRINT
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     IAPIERR      DS
+     I I            256                   B   1   40ERRSIZ
+     I I            0                     B   5   80ERRLEN
+     I I                                      9  15 ERRMIC
+     I I                                     16  16 ERRNBR
+     I I                                     17 256 ERRDTA
+     I*
+     I            DS
+     I I            0                     B   1   40MSGCTR
+     I I            80                    B   5   80MSGLEN
+     I I            'FRSMSGF   FLGHT400  '    9  28 MSGF
+     I I            '*INFO     '             29  38 MSGTYP
+     I I            '    '                   39  42 MSGKEY
+     I*
+     I            DS
+     I I            0                     B   1   40RMVCTR
+     I I            '*         '              5  14 RMVMSQ
+     I I            '*ALL      '             15  24 RMVCLR
+     I I            '    '                   25  28 RMVKEY
+     I*
+     I           SDS
+     I                                        1  10 @PGM                   _ERR_
+     I                                       11  150@STAT                  _ERR_
+     I                                       37  390@PARMS                 _ERR_
+     I                                       40  46 @MSGID                 _ERR_
+     I                                       91 169 @DATA                  _ERR_
+     I                                      244 253 @JOBNA                 _ERR_
+     I                                      254 263 @USRNA                 _ERR_
+     I                                      264 269 @JOBNO                 _ERR_
+     I                                      304 313 @SRCF                  _ERR_
+     I                                      314 323 @SRCL                  _ERR_
+     I                                      324 333 @SRCM                  _ERR_
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I                                    B 378 3790PAGRRN
+     I*
+     I            DS
+     I                                        1  66 ENDAGK
+     I                                    B   1   20ENDAGL
+     I                                        3  27 ENDAGM
+     I                                       28  66 BLNKSA
+     I*
+     I            DS
+     I                                        1  66 AGNKEY
+     I                                    B   1   20AGNLEN
+     I                                        3  27 AGNNAM
+     I                                       28  66 BLNKSB
+     I*
+     C*
+     C*
+     C           *ENTRY    PLIST
+     C                     PARM           PAGENT 10
+     C*
+     C                     RESET@EXIT                       * RESET EXIT FLAG
+     C                     EXSR @RMVMS
+     C                     EXSR @RESET                      *
+     C                     EXSR @LOAD                       * LOAD SFL
+     C*
+     C*
+     C           @EXIT     DOUEQ@TRUE                       * DO UNTIL F3/F12
+     C*
+     C                     WRITEFRSWIN                      * WRITE MSGCTL
+     C                     WRITEFKEYS                       * WRITE SFL CMDL
+     C                     WRITEMSGCTL                      * WRITE MSGCTL
+     C                     EXFMTSFLCTL                      * WRITE SFL CTL
+     C*
+     C                     Z-ADDPAGRRN    SFLPS
+     C*
+     C           KEY       CASEQ@F03      @F03SR            F03 EXIT
+     C           KEY       CASEQ@F09      @F09SR            F09 COMMAND LINE
+     C           KEY       CASEQ@F12      @F12SR            F12 CANCEL
+     C           KEY       CASEQ@PAGDN    @PGDN             PAGE DOWN
+     C                     CAS            @ENTKY            Enter
+     C                     ENDCS
+     C*
+     C                     ENDDO
+     C*
+     C*
+     C                     MOVE *ON       *INLR
+     C*
+     C*
+     C*
+     C           *INZSR    BEGSR                            * INIT SUBROUTN
+     C*
+     C                     SETOF                         50 * RESET ERR IND
+     C*
+     C                     MOVE ' '       MSGID   7
+     C                     MOVE *BLANKS   MSGDTA 80
+     C                     MOVE @PGM      MSGQUE 10
+     C                     MOVE @PGM      PGMQ
+     C                     MOVE @FALSE    @EXIT   1         * PGM EXIT = OFF
+     C*
+     C                     Z-ADD0         SFLRN   40
+     C                     Z-ADD0         ENDRN   40
+     C                     Z-ADD1         SFLPS
+     C*
+     C                     MOVE *BLANKS   AGNKEY
+     C                     MOVEL'A'       AGNNAM
+     C                     Z-ADD1         AGNLEN
+     C*
+     C           AGNKEY    SETLLAGENTSL
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C* Load subfile
+     C*
+     C*
+     C           @LOAD     BEGSR
+     C*
+     C* Read a page of records or until EOF.
+     C                     DO   4
+     C                     READ AGENTSL                  99
+     C*
+     C           *IN99     IFEQ *ON
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     MOVE AGNMBR    OAGNT#
+     C                     MOVE AGNAME    AGNKEY
+     C                     MOVELAGNNAM    OAGNTN
+     C*
+     C                     ADD  1         SFLRN
+     C                     WRITESFL                         * WRITE SFL RCRD
+     C*
+     C                     ENDDO
+     C*
+     C                     MOVE AGNAME    ENDAGK            * UPDATE END KEYS
+     C                     Z-ADDSFLRN     ENDRN             * FOR FILE/SUBFILE
+     C*
+     C           *IN99     IFEQ *OFF                        * IF NOT EOF
+     C                     READ AGENTSL                  99 * READ ONE MORE
+     C                     ENDIF                            * TO MAKE SURE
+     C*
+     C           SFLRN     IFEQ *ZEROS                      * IF NO RECS ADDED
+     C                     MOVE *OFF      *IN42             * TO SFL SET ERR IND
+     C                     ELSE                             * OTHERWISE
+     C                     MOVE *ON       *IN42             * SET IND TO DSP SFL
+     C                     Z-ADDSFLRN     SFLPS             * SET SFL POSTN TO
+     C                     ENDIF                            * PAGE JUST ADDED
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @RESET    BEGSR
+     C                     MOVE *ON       *IN40
+     C                     WRITEFRSWIN                      * WRITE MSGCTL
+     C                     WRITESFLCTL
+     C                     MOVE *OFF      *IN40
+     C                     MOVE *OFF      *IN42
+     C*
+     C                     RESETSFLRN
+     C                     RESETENDRN
+     C                     RESETSFLPS
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @REPOS    BEGSR
+     C*
+     C                     EXSR @RESET
+     C           SEARCH    IFEQ *BLANKS
+     C                     MOVE AGNAME    AGNKEY            * UPDATE END KEYS
+     C                     ENDIF
+     C           AGNKEY    SETLLAGENTSL
+     C                     EXSR @LOAD
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @PGDN     BEGSR
+     C*
+     C           *IN99     IFEQ *OFF
+     C           ENDAGK    SETGTAGENTSL
+     C                     Z-ADDENDRN     SFLRN
+     C                     EXSR @LOAD
+     C                     ELSE
+     C                     MOVE *ON       *IN60
+     C                     ENDIF
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @ENTKY    BEGSR
+     C*
+     C                     SETOF                         50 * RESET ERR IND
+     C           SEARCH    IFNE *BLANKS
+     C           ' '       CHEKRSEARCH    AGNLEN
+     C                     MOVELSEARCH    AGNNAM
+     C                     EXSR @REPOS
+->   C                     ELSE
+->   C                     EXSR @SFLRD
+     C                     ENDIF
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @SFLRD    BEGSR                            * RD SFL CHG RCDS
+     C*
+     C                     EXSR @RMVMS                      * SND ERR MESSAGE
+     C*
+     C                     READCSFL                    9798 * SELECTION MADE?
+     C*
+     C           *IN97     IFEQ '1'
+     C                     EXSR @REPOS                      * REPOSITN SFL
+     C                     GOTO ENDSEL                      * REPOSITN SFL
+->   C                     ENDIF
+     C*
+     C           *IN98     DOWEQ*OFF
+     C*
+     C           SELIO     IFEQ '1'
+     C                     MOVELOAGNTN    PAGENT
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     READCSFL                    9798
+     C*
+->   C           *IN97     IFEQ '1'
+     C                     EXSR @REPOS                      * REPOSITN SFL
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     LEAVE                            * REPOSITN SFL
+->   C                     ENDIF
+     C*
+     C                     ENDDO
+     C*
+     C           ENDSEL    ENDSR
+     C*
+     C*
+     C           @RMVMS    BEGSR
+     C                     CALL 'QMHRMVPM'                  * PGM TO RMV PGM MSG
+     C                     PARM           RMVMSQ            * MESSAGE DATA
+     C                     PARM           RMVCTR            * MESSAGE DATA
+     C                     PARM           RMVKEY            * MESSAGE DATA
+     C                     PARM           RMVCLR
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @SNDMS    BEGSR
+     C                     CALL 'QMHSNDPM'                  * PGM TO SND PGM MSG
+     C                     PARM           MSGID             * MESSAGE ID
+     C                     PARM           MSGF              * MESSAGE FILE
+     C                     PARM           MSGDTA            * MESSAGE DATA
+     C                     PARM           MSGLEN            * MESSAGE DATA
+     C                     PARM           MSGTYP            * MESSAGE DATA
+     C                     PARM           MSGQUE            * MESSAGE DATA
+     C                     PARM           MSGCTR            * MESSAGE DATA
+     C                     PARM           MSGKEY            * MESSAGE DATA
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @F03SR    BEGSR                            * F3 SUBROUTINE
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     ENDSR
+     C*
+     C*
+     C           @F09SR    BEGSR                            * F9 SUBROUTINE
+     C                     CALL 'QUSCMDLN'                  * GET CMD LINE
+     C                     ENDSR
+     C*
+     C*
+     C           @F12SR    BEGSR
+     C                     MOVE @TRUE     @EXIT
+     C                     ENDSR

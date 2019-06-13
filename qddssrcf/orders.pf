@@ -1,0 +1,30 @@
+                                            UNIQUE
+                R ORDERS
+                  ORDER00001     9B 0       ALIAS(ORDER_NUMBER)
+                                            COLHDG('ORDER_NUMBER')
+                                            ALWNULL
+                  AGENT_NO       9B 0       ALWNULL
+                                            COLHDG('AGENT_NO')
+                  CUSTO00001     9B 0       ALIAS(CUSTOMER_NO)
+                                            COLHDG('CUSTOMER_NO')
+                                            ALWNULL
+                  FLIGH00001     9B 0       ALIAS(FLIGHT_NUMBER)
+                                            COLHDG('FLIGHT_NUMBER')
+                                            ALWNULL
+                  DEPAR00001      Z         ALIAS(DEPARTURE_DATE)
+                                            COLHDG('DEPARTURE_DATE')
+                                            ALWNULL
+                  TICKE00001     9B 0       ALIAS(TICKETS_ORDERED)
+                                            COLHDG('TICKETS_ORDERED')
+                                            ALWNULL
+                  CLASS          1A         ALWNULL
+                                            COLHDG('CLASS')
+                                            CCSID(37)
+                                            VARLEN
+                  SEND_00001    16A         ALIAS(SEND_SIGNATURE_WITH_ORDER)
+                                            COLHDG(' SEND_SIGNATURE' +
+                                                   '   WITH_ORDER')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                K ORDER00001

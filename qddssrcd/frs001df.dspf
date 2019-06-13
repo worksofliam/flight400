@@ -1,0 +1,307 @@
+     A*%%TS  SD  19970808  133256  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      CA02(02)
+     A                                      CA03(03)
+     A                                      CF04(04)
+     A                                      CF05(05)
+     A                                      CF06(06)
+     A                                      CF07(07)
+     A                                      CF09(09)
+     A                                      CF10(10)
+     A                                      CA12(12)
+     A          R FRSADR
+     A*%%TS  SD  19970808  133256  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      CHANGE(88 'A FIELD WAS CHANGED')
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A                                  1  2'Flights Reservation System - Creat-
+     A                                      e Order'
+     A                                      DSPATR(HI)
+     A                                  1 49TIME
+     A                                      COLOR(BLU)
+     A                                  1 58DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      COLOR(BLU)
+     A                                  3  2'Type choices, press'
+     A                                      COLOR(BLU)
+     A                                      DSPATR(UL)
+     A                                  3 22'F10'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  3 26'to Make Reservation'
+     A                                      COLOR(BLU)
+     A                                      DSPATR(UL)
+     A                                  4  2'      FLIGHT INFORMATION          -
+     A                                               TICKET ORDER INFORMATION  -
+     A                                               '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  5  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  5 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  5 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  6  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  6 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  6 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  7  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  7  5'Airline:'
+     A                                      COLOR(BLU)
+     A            AIRLIN         3A  O  7 14DSPATR(HI)
+     A                                  7 18'Flight:'
+     A                                      COLOR(BLU)
+     A            FLIGHT         7S 0O  7 26DSPATR(HI)
+     A                                  7 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  7 38'Order Number...............:'
+     A                                      COLOR(BLU)
+     A                                  7 70'PENDING'
+     A                                  7 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  8  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  8 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  8 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  9  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  9  5'Date of Flight..:'
+     A                                      COLOR(BLU)
+     A            DOFMON         2D 0B  9 23
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A  39                                  DSPATR(PR)
+     A            DOFDAY         2D 0B  9 26
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A  39                                  DSPATR(PR)
+     A            DOFYR          4D 0B  9 29
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A  39                                  DSPATR(PR)
+     A                                  9 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                  9 38'Customer...:'
+     A                                      COLOR(BLU)
+     A            CUSNAM        25A  B  9 52
+     A  54                                  DSPATR(RI)
+     A  54                                  DSPATR(PC)
+     A                                      CHECK(LC)
+     A  40                                  DSPATR(PR)
+     A                                  9 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 10  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 10 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 10 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 11  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 11 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 11 38'Class of Service - First..........-
+     A                                      .:'
+     A                                      COLOR(BLU)
+     A            COSFIR         1A  B 11 76
+     A  55                                  DSPATR(RI)
+     A  55                                  DSPATR(PC)
+     A  40                                  DSPATR(PR)
+     A                                 11 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 12  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 12  5'From City.:'
+     A                                      COLOR(BLU)
+     A            FCITY         16A  B 12 17
+     A  52                                  DSPATR(RI)
+     A  52                                  DSPATR(PC)
+     A                                      CHECK(LC)
+     A  39                                  DSPATR(PR)
+     A                                 12 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 12 57'Business........:'
+     A                                      COLOR(BLU)
+     A            COSBUS         1A  B 12 76
+     A  55                                  DSPATR(RI)
+     A  40                                  DSPATR(PR)
+     A                                 12 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 13  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 13 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 13 57'Economy.........:'
+     A                                      COLOR(BLU)
+     A            COSECO         1A  B 13 76
+     A  55                                  DSPATR(RI)
+     A  40                                  DSPATR(PR)
+     A                                 13 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 14  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 14  5'Depart Time.......:'
+     A                                      COLOR(BLU)
+     A            DPTIME         8A  O 14 25DSPATR(HI)
+     A                                 14 35' '
+     A                                      COLOR(BLU)
+     A                                      DSPATR(RI)
+     A                                 14 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 15  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 15 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 15 38'Number of Tickets.................-
+     A                                      .:'
+     A                                      COLOR(BLU)
+     A            TCKETS         2D 0B 15 75CHECK(RZ)
+     A  56                                  DSPATR(RI)
+     A  56                                  DSPATR(PC)
+     A  40                                  DSPATR(PR)
+     A                                 15 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 16  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 16 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 16 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 17  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 17  5'To City...:'
+     A                                      COLOR(BLU)
+     A            TCITY         16A  B 17 17
+     A  53                                  DSPATR(RI)
+     A  53                                  DSPATR(PC)
+     A                                      CHECK(LC)
+     A  39                                  DSPATR(PR)
+     A                                 17 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 17 38'Price $.....................:'
+     A                                      COLOR(BLU)
+     A            PRICE          6Y 2O 17 70DSPATR(HI)
+     A                                      EDTWRD('    .  ')
+     A                                 17 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 18  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 18 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 18 38'Tax $.......................:'
+     A                                      COLOR(BLU)
+     A            TAXDUE         5Y 2O 18 71EDTWRD('   .  ')
+     A                                      DSPATR(HI)
+     A                                 18 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 19  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 19  5'Arrival Time......:'
+     A                                      COLOR(BLU)
+     A            ARTIME         8A  O 19 25DSPATR(HI)
+     A                                 19 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 19 38'Total Due w/ Tax $..........:'
+     A                                      COLOR(BLU)
+     A            TOTAL          7Y 2O 19 69EDTWRD('     .  ')
+     A                                      DSPATR(HI)
+     A                                 19 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 20  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 20 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 20 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 21  2' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 21 35' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 21 79' '
+     A                                      DSPATR(RI)
+     A                                      COLOR(BLU)
+     A                                 22  2'                                  -
+     A                                                                         -
+     A                                               '
+     A                                      DSPATR(UL)
+     A                                      COLOR(BLU)
+     A                                      DSPATR(RI)
+     A                                 23  2'F2=Refresh  F4=FROM Cities  F5=TO -
+     A                                      Cities  F6=Flights  F7=Customers'
+     A                                      COLOR(BLU)
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      SFLSIZ(4)
+     A                                      SFLPAG(1)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ

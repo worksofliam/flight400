@@ -1,0 +1,74 @@
+     A*%%TS  SD  19970811  135100  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      HELP
+     A                                      ROLLUP
+     A          R FRSWIN
+     A*%%TS  SD  19970808  151139  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(4 2 15 29)
+     A                                      WDWBORDER((*COLOR WHT) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A          R FKEYS
+     A*%%TS  SD  19970810  001750  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      CF03(03)
+     A                                      CF12(12)
+     A                                      OVERLAY
+     A                                      WINDOW(FRSWIN)
+     A                                  1  2'ADDITIONAL FAX INFORMATION'
+     A                                      DSPATR(HI)
+     A                                  3  2'Key in any additional info'
+     A                                      COLOR(BLU)
+     A                                  4  2'you wish added to the FAX:'
+     A                                      COLOR(BLU)
+     A            TEXTL1        27A  B  6  2CHECK(LC)
+     A            TEXTL2        27A  B  7  2CHECK(LC)
+     A            TEXTL3        27A  B  8  2CHECK(LC)
+     A            TEXTL4        27A  B  9  2CHECK(LC)
+     A            TEXTL5        27A  B 10  2CHECK(LC)
+     A            TEXTL6        27A  B 11  2CHECK(LC)
+     A            TEXTL7        27A  B 12  2CHECK(LC)
+     A                                 14  2'ENTER=Continue'
+     A                                      COLOR(BLU)
+     A                                 14 20'F3=Cancel'
+     A                                      COLOR(BLU)
+     A          R DUMMY                     ASSUME
+     A                                      PUTOVR
+     A                                  1  2' '
+     A                                      DSPATR(ND)
+     A          R FKEYS2
+     A*%%TS  SD  19970811  131240  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      OVERLAY
+     A                                      WINDOW(FRSWIN)
+     A                                  1  7'FAX STATUS WINDOW'
+     A                                      DSPATR(HI)
+     A                                  7 10'Dialing...'
+     A                                      COLOR(BLU)
+     A          R FKEYS3
+     A*%%TS  SD  19970811  115109  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      OVERLAY
+     A                                      WINDOW(FRSWIN)
+     A                                  1  7'FAX STATUS WINDOW'
+     A                                      DSPATR(HI)
+     A                                  7  9'Connecting...'
+     A                                      COLOR(BLU)
+     A          R FKEYS4
+     A*%%TS  SD  19970811  115109  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      OVERLAY
+     A                                      WINDOW(FRSWIN)
+     A                                  1  7'FAX STATUS WINDOW'
+     A                                      DSPATR(HI)
+     A                                  7 10'Sending...'
+     A                                      COLOR(BLU)
+     A          R FKEYS5
+     A*%%TS  SD  19970809  224946  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(FRSWIN)
+     A                                      OVERLAY
+     A                                  1  7'FAX STATUS WINDOW'
+     A                                      DSPATR(HI)
+     A                                  7  4'FAX sent successfully !'
+     A                                      COLOR(BLU)
+     A                                 14  4'Press Enter to continue'
+     A                                      COLOR(BLU)

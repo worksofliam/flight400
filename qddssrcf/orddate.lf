@@ -1,0 +1,14 @@
+     A          R ORDDTR                    JFILE(ORDERS    CUSTOMERS)
+     A          J                           JFLD(CUSTO00001 CUSTO00001)
+     A            AGNTNO                    RENAME(AGENT_NO)
+     A            CUSTNM                    RENAME(CUSTO00002)
+     A            CUSTNO                    RENAME(CUSTO00001)
+     A                                      JREF(ORDERS)
+     A            FLGTNO                    RENAME(FLIGH00001)
+     A            DEPART                    RENAME(DEPAR00001)
+     A            ORDRNO                    RENAME(ORDER00001)
+     A            TCKTNO                    RENAME(TICKE00001)
+     A            CLASS
+     A            SENDSG                    RENAME(SEND_00001)
+     A          K DEPART
+     A          K ORDRNO

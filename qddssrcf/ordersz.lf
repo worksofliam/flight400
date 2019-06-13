@@ -1,0 +1,10 @@
+     A          R ORDNMZ                    PFILE(ORDERS)
+     A            ORDRNO         9S 0       RENAME(ORDER00001)
+     A            AGNTNO    R               RENAME(AGENT_NO)
+     A            CUSTNO    R               RENAME(CUSTO00001)
+     A            FLGTNO    R               RENAME(FLIGH00001)
+     A            DEPART    R               RENAME(DEPAR00001)
+     A            TCKTNO    R               RENAME(TICKE00001)
+     A            CLASS     R
+     A            SENDSG    R               RENAME(SEND_00001)
+     A          K ORDRNO

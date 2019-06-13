@@ -1,0 +1,60 @@
+     A* Free Form Menu: FRSMAIN
+     A*%%TS  SD  19970812  162504  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3                  -
+     A                                             27 132 *DS4)
+     A                                      CHGINPDFT
+     A                                      INDARA
+     A                                      PRINT(*LIBL/QSYSPRT)
+     A          R FRSMAIN
+     A*%%TS  SD  19970807  145639  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      DSPMOD(*DS3)
+     A                                      LOCK
+     A                                      SLNO(01)
+     A                                      CLRL(*ALL)
+     A                                      ALWROL
+     A                                      CF03
+     A                                      HELP
+     A                                      HOME
+     A                                      HLPRTN
+     A                                  1  2'FRSMAIN'
+     A                                      COLOR(BLU)
+     A                                  1 28'Flight Reservation System'
+     A                                      DSPATR(HI)
+     A                                  3  2'Select one of the following:'
+     A                                      COLOR(BLU)
+     A                                  5  7'1.'
+     A                                      DSPATR(HI)
+     A                                  6  7'2.'
+     A                                      DSPATR(HI)
+     A                                  8  7'4.'
+     A                                      DSPATR(HI)
+     A                                 15  6'20.'
+     A                                      DSPATR(HI)
+     A* CMDPROMPT  Do not delete this DDS spec.
+     A                                020  2'Selection or command              -
+     A                                          '
+     A                                  5 10'Create a New Reservation'
+     A                                  6 10'Update an existing Reservation'
+     A                                 15 10'Reservation System Reports'
+     A                                 19  6'90.'
+     A                                      DSPATR(HI)
+     A                                 19 10'Signoff'
+     A                                  1 14TIME
+     A                                      COLOR(BLU)
+     A                                  1 59DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      COLOR(BLU)
+     A                                 12  6'10.'
+     A                                      DSPATR(HI)
+     A                                 12 10'Flight Reservation System Maintena-
+     A                                      nce'
+     A                                  7  7'3.'
+     A                                      DSPATR(HI)
+     A                                  7 10'Inquire on an existing Reservation'
+     A                                  9  7'5.'
+     A                                      DSPATR(HI)
+     A                                  9 10'Fax Reservation Information'
+     A                                  8 10'Delete an existing Reservation'

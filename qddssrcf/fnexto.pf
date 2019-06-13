@@ -1,0 +1,5 @@
+                                            UNIQUE
+                R NXTNUM
+                  NXTORD         9S 0       ALIAS(NEXT_ORDER)
+                                            COLHDG('NEXT_ORDER')
+                K NXTORD

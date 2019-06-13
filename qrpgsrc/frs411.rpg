@@ -1,0 +1,49 @@
+     FFRS411DFCF  E                    WORKSTN      KINFDS WSDS
+     I*
+     I              X'33'                 C         @F03
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F6'                 C         @PRINT
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I*
+     ICRTCMD      DS
+     I I            'DLYJOB DLY(00000'        1  16 TXT1
+     I                                       17  17 DLYTIM
+     I I            ')'                      18  18 TXT2
+     C*
+     C                     WRITEFRSWIN                      * WRITE MSGCTL
+     C                     EXFMTFKEYS                       * WRITE MSGCTL
+     C           KEY       CABEQ@F03      END               F03 EXIT
+     C           KEY       CABEQ@F12      END               F03 EXIT
+     C*
+     C                     WRITEFKEYS2                      * WRITE MSGCTL
+     C                     MOVE '2'       DLYTIM
+     C                     EXSR FAXDLY
+     C*
+     C                     WRITEFKEYS3                      * WRITE MSGCTL
+     C                     MOVE '3'       DLYTIM
+     C                     EXSR FAXDLY
+     C*
+     C                     WRITEFKEYS4                      * WRITE MSGCTL
+     C                     MOVE '4'       DLYTIM
+     C                     EXSR FAXDLY
+     C*
+     C                     EXFMTFKEYS5                      * WRITE SFL CMDL
+     C*
+     C           END       TAG
+     C*
+     C                     MOVE *ON       *INLR
+     C*
+     C*
+     C           FAXDLY    BEGSR
+     C                     Z-ADD18        CMDLEN 155
+     C                     CALL 'QCMDEXC'
+     C                     PARM           CRTCMD            * G=GET
+     C                     PARM           CMDLEN            * G=GET
+     C                     ENDSR
+     C*

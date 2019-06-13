@@ -1,0 +1,348 @@
+     FORDDATE IF  F     133 30AI    79 DISK
+     FFRS407DFCF  E                    WORKSTN      KINFDS WSDS
+     F                                        SFLRN KSFILE SFL
+     IORDDATE NS  01
+     I                                    B   1   40AGNTNO
+     I                                        5  70 CUSTNM
+     I                                    B  71  740CUSTNO
+     I                                    B  75  780FLGTNO
+     I                                       79 104 DEPART
+     I                                    B 105 1080ORDRNO
+     I                                    B 109 1120TCKTNO
+     I                                      113 115 CLASS
+     I                                      116 133 SENDSG
+     I*
+     I              X'31'                 C         @F01
+     I              X'33'                 C         @F03
+     I              X'39'                 C         @F09
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F3'                 C         @HELP
+     I              X'F4'                 C         @PAGUP
+     I              X'F5'                 C         @PAGDN
+     I              X'F6'                 C         @PRINT
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     IAPIERR      DS
+     I I            256                   B   1   40ERRSIZ
+     I I            0                     B   5   80ERRLEN
+     I I                                      9  15 ERRMIC
+     I I                                     16  16 ERRNBR
+     I I                                     17 256 ERRDTA
+     I*
+     I            DS
+     I I            0                     B   1   40MSGCTR
+     I I            80                    B   5   80MSGLEN
+     I I            'FRSMSGF   FLGHT400  '    9  28 MSGF
+     I I            '*INFO     '             29  38 MSGTYP
+     I I            '    '                   39  42 MSGKEY
+     I*
+     I            DS
+     I I            0                     B   1   40RMVCTR
+     I I            '*         '              5  14 RMVMSQ
+     I I            '*ALL      '             15  24 RMVCLR
+     I I            '    '                   25  28 RMVKEY
+     I*
+     I           SDS
+     I                                        1  10 @PGM                   _ERR_
+     I                                       11  150@STAT                  _ERR_
+     I                                       37  390@PARMS                 _ERR_
+     I                                       40  46 @MSGID                 _ERR_
+     I                                       91 169 @DATA                  _ERR_
+     I                                      244 253 @JOBNA                 _ERR_
+     I                                      254 263 @USRNA                 _ERR_
+     I                                      264 269 @JOBNO                 _ERR_
+     I                                      304 313 @SRCF                  _ERR_
+     I                                      314 323 @SRCL                  _ERR_
+     I                                      324 333 @SRCM                  _ERR_
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I                                    B 378 3790PAGRRN
+     I*
+     I            DS
+     I                                        1   80SCRDPK
+     I                                        1   40SCRYY
+     I                                        5   60SCRMM
+     I                                        7   80SCRDD
+     I*
+     I            DS
+     I                                        1  26 FILDPK
+     I                                        1   4 FILYY
+     I I            '-'                       5   5 FDASH1
+     I                                        6   7 FILMM
+     I I            '-'                       8   8 FDASH2
+     I                                        9  10 FILDD
+     I I                                     11  26 FREST
+     I*
+     I            DS
+     I                                        1  30 ORDDPK
+     I                                        1   4 ORDYY
+     I I            '-'                       5   5 ODASH1
+     I                                        6   7 ORDMM
+     I I            '-'                       8   8 ODASH2
+     I                                        9  10 ORDDD
+     I I            '-'                      11  11 ODASH3
+     I                                       12  13 ORDHH
+     I I            '.'                      14  14 ODOT
+     I                                       15  16 ORDMN
+     I I            '.00.000000'             17  26 OZEROS
+     I                                    B  27  300ORDORD
+     I*
+     I            DS
+     I                                        1  30 ENDDPK
+     I                                        1   4 ENDYY
+     I I            '-'                       5   5 EDASH1
+     I                                        6   7 ENDMM
+     I I            '-'                       8   8 EDASH2
+     I                                        9  10 ENDDD
+     I I            '-'                      11  11 EDASH3
+     I                                       12  13 ENDHH
+     I I            '.'                      14  14 EDOT
+     I                                       15  16 ENDMN
+     I I            '.00.000000'             17  26 EZEROS
+     I                                    B  27  300ENDORD
+     I*
+     I            DS
+     I                                        1  66 CUSKEY
+     I                                    B   1   20CUSLEN
+     I                                        3  66 CUSNAM
+     I*
+     C*
+     C*
+     C           *ENTRY    PLIST
+     C                     PARM           PDEPYY  40
+     C                     PARM           PDEPMM  20
+     C                     PARM           PDEPDD  20
+     C                     PARM           PORDNO  90
+     C*
+     C                     RESET@EXIT                       * RESET EXIT FLAG
+     C                     EXSR @RMVMS
+     C                     EXSR @RESET                      *
+     C                     EXSR @LOAD                       * LOAD SFL
+     C*
+     C*
+     C           @EXIT     DOUEQ@TRUE                       * DO UNTIL F3/F12
+     C*
+     C                     WRITEFRSWIN                      * WRITE MSGCTL
+     C                     WRITEFKEYS                       * WRITE SFL CMDL
+     C                     WRITEMSGCTL                      * WRITE MSGCTL
+     C                     EXFMTSFLCTL                      * WRITE SFL CTL
+     C*
+     C                     Z-ADDPAGRRN    SFLPS
+     C*
+     C           KEY       CASEQ@F03      @F03SR            F03 EXIT
+     C           KEY       CASEQ@F09      @F09SR            F09 COMMAND LINE
+     C           KEY       CASEQ@F12      @F12SR            F12 CANCEL
+     C           KEY       CASEQ@PAGDN    @PGDN             PAGE DOWN
+     C                     CAS            @ENTKY            Enter
+     C                     ENDCS
+     C*
+     C                     ENDDO
+     C*
+     C*
+     C                     MOVE *ON       *INLR
+     C*
+     C*
+     C*
+     C           *INZSR    BEGSR                            * INIT SUBROUTN
+     C*
+     C                     SETOF                         50 * RESET ERR IND
+     C*
+     C                     MOVE ' '       MSGID   7
+     C                     MOVE *BLANKS   MSGDTA 80
+     C                     MOVE @PGM      MSGQUE 10
+     C                     MOVE @PGM      PGMQ
+     C                     MOVE @FALSE    @EXIT   1         * PGM EXIT = OFF
+     C*
+     C                     Z-ADD0         SFLRN   40
+     C                     Z-ADD0         ENDRN   40
+     C                     Z-ADD1         SFLPS
+     C*
+     C                     MOVEL'1997'    ORDYY
+     C                     MOVEL'01'      ORDMM
+     C                     MOVEL'01'      ORDDD
+     C                     MOVEL'00'      ORDHH
+     C                     MOVEL'00'      ORDMN
+     C                     Z-ADD1         ORDORD
+     C*
+     C           ORDDPK    SETLLORDDATE
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C* Load subfile
+     C*
+     C*
+     C           @LOAD     BEGSR
+     C*
+     C* Read a page of records or until EOF.
+     C                     DO   4
+     C                     READ ORDDATE                  99
+     C*
+     C           *IN99     IFEQ *ON
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     MOVE ORDRNO    ORDRN
+     C                     MOVE CUSTNM    CUSKEY
+     C                     MOVELCUSNAM    CUSTN
+     C                     MOVE DEPART    FILDPK
+     C                     MOVE FILYY     SCRYY
+     C                     MOVE FILMM     SCRMM
+     C                     MOVE FILDD     SCRDD
+     C                     MOVE SCRDPK    DODPRT
+     C*
+     C                     ADD  1         SFLRN
+     C                     WRITESFL                         * WRITE SFL RCRD
+     C*
+     C                     ENDDO
+     C*
+     C                     MOVELDEPART    ENDDPK            * UPDATE END KEYS
+     C                     Z-ADDORDRNO    ENDORD
+     C                     Z-ADDSFLRN     ENDRN             * FOR FILE/SUBFILE
+     C*
+     C           *IN99     IFEQ *OFF                        * IF NOT EOF
+     C                     READ ORDDATE                  99 * READ ONE MORE
+     C                     ENDIF                            * TO MAKE SURE
+     C*
+     C           SFLRN     IFEQ *ZEROS                      * IF NO RECS ADDED
+     C                     MOVE *OFF      *IN42             * TO SFL SET ERR IND
+     C                     ELSE                             * OTHERWISE
+     C                     MOVE *ON       *IN42             * SET IND TO DSP SFL
+     C                     Z-ADDSFLRN     SFLPS             * SET SFL POSTN TO
+     C                     ENDIF                            * PAGE JUST ADDED
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @RESET    BEGSR
+     C                     MOVE *ON       *IN40
+     C                     WRITEFRSWIN                      * WRITE MSGCTL
+     C                     WRITESFLCTL
+     C                     MOVE *OFF      *IN40
+     C                     MOVE *OFF      *IN42
+     C*
+     C                     RESETSFLRN
+     C                     RESETENDRN
+     C                     RESETSFLPS
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @REPOS    BEGSR
+     C*
+     C                     EXSR @RESET
+     C           SRCHYY    IFEQ 0
+     C                     MOVELDEPART    ORDDPK            * UPDATE END KEYS
+     C                     Z-ADDORDRNO    ORDORD
+     C                     ENDIF
+     C           ORDDPK    SETLLORDDATE
+     C                     EXSR @LOAD
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @PGDN     BEGSR
+     C*
+     C           *IN99     IFEQ *OFF
+     C           ENDDPK    SETGTORDDATE
+     C                     Z-ADDENDRN     SFLRN
+     C                     EXSR @LOAD
+     C                     ELSE
+     C                     MOVE *ON       *IN60
+     C                     ENDIF
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @ENTKY    BEGSR
+     C*
+     C                     SETOF                         50 * RESET ERR IND
+     C           SRCHYY    IFNE 0
+     C                     MOVE SRCHYY    ORDYY
+     C                     MOVE SRCHMM    ORDMM
+     C                     MOVE SRCHDD    ORDDD
+     C                     EXSR @REPOS
+->   C                     ELSE
+->   C                     EXSR @SFLRD
+     C                     ENDIF
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @SFLRD    BEGSR                            * RD SFL CHG RCDS
+     C*
+     C                     EXSR @RMVMS                      * SND ERR MESSAGE
+     C*
+     C                     READCSFL                    9798 * SELECTION MADE?
+     C*
+     C           *IN97     IFEQ '1'
+     C                     EXSR @REPOS                      * REPOSITN SFL
+     C                     GOTO ENDSEL                      * REPOSITN SFL
+->   C                     ENDIF
+     C*
+     C           *IN98     DOWEQ*OFF
+     C*
+     C           SELIO     IFEQ '1'
+     C                     Z-ADDDODPRT    SCRDPK
+     C                     Z-ADDSCRYY     PDEPYY
+     C                     Z-ADDSCRMM     PDEPMM
+     C                     Z-ADDSCRDD     PDEPDD
+     C                     MOVELORDRN     PORDNO
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     READCSFL                    9798
+     C*
+->   C           *IN97     IFEQ '1'
+     C                     EXSR @REPOS                      * REPOSITN SFL
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     LEAVE                            * REPOSITN SFL
+->   C                     ENDIF
+     C*
+     C                     ENDDO
+     C*
+     C           ENDSEL    ENDSR
+     C*
+     C*
+     C           @RMVMS    BEGSR
+     C                     CALL 'QMHRMVPM'                  * PGM TO RMV PGM MSG
+     C                     PARM           RMVMSQ            * MESSAGE DATA
+     C                     PARM           RMVCTR            * MESSAGE DATA
+     C                     PARM           RMVKEY            * MESSAGE DATA
+     C                     PARM           RMVCLR
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @SNDMS    BEGSR
+     C                     CALL 'QMHSNDPM'                  * PGM TO SND PGM MSG
+     C                     PARM           MSGID             * MESSAGE ID
+     C                     PARM           MSGF              * MESSAGE FILE
+     C                     PARM           MSGDTA            * MESSAGE DATA
+     C                     PARM           MSGLEN            * MESSAGE DATA
+     C                     PARM           MSGTYP            * MESSAGE DATA
+     C                     PARM           MSGQUE            * MESSAGE DATA
+     C                     PARM           MSGCTR            * MESSAGE DATA
+     C                     PARM           MSGKEY            * MESSAGE DATA
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @F03SR    BEGSR                            * F3 SUBROUTINE
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     ENDSR
+     C*
+     C*
+     C           @F09SR    BEGSR                            * F9 SUBROUTINE
+     C                     CALL 'QUSCMDLN'                  * GET CMD LINE
+     C                     ENDSR
+     C*
+     C*
+     C           @F12SR    BEGSR
+     C                     MOVE @TRUE     @EXIT
+     C                     ENDSR

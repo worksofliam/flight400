@@ -1,0 +1,414 @@
+     FFRCITY  IP  E           K        DISK
+     FTOCITY  IF  E           K        DISK
+     FFLIGHTS O   F     228            DISK                      A
+     E*
+     E                    TABA1#  1   9  1 0ATABA1D 32   * ARRVL TIME DSCRPTN 1
+     E                    TABA2#  1   9  1 0ATABA2D 32   * ARRVL TIME DSCRPTN 2
+     E                    TABA3#  1   9  1 0ATABA3D 32   * ARRVL TIME DSCRPTN 3
+     E                    TABA4#  1   9  1 0ATABA4D 32   * ARRVL TIME DSCRPTN 4
+     E                    TABA5#  1   9  1 0ATABA5D 32   * ARRVL TIME DSCRPTN 5
+     E                    TABA6#  1   9  1 0ATABA6D 32   * ARRVL TIME DSCRPTN 6
+     E                    TABA7#  1   9  1 0ATABA7D 32   * ARRVL TIME DSCRPTN 7
+     E                    TABA8#  1   9  1 0ATABA8D 32   * ARRVL TIME DSCRPTN 8
+     E                    TABA9#  1   9  1 0ATABA9D 32   * ARRVL TIME DSCRPTN 9
+     E                    TABD1#  1   9  1 0ATABD1D 32   * DPART TIME DSCRPTN 2
+     E                    TABD2#  1   9  1 0ATABD2D 32   * DPART TIME DSCRPTN 3
+     E                    TABD3#  1   9  1 0ATABD3D 32   * DPART TIME DSCRPTN 4
+     E                    TABD4#  1   9  1 0ATABD4D 32   * DPART TIME DSCRPTN 5
+     E                    TABD5#  1   9  1 0ATABD5D 32   * DPART TIME DSCRPTN 6
+     E                    TABD6#  1   9  1 0ATABD6D 32   * DPART TIME DSCRPTN 7
+     E                    TABD7#  1   9  1 0ATABD7D 32   * DPART TIME DSCRPTN 8
+     E                    TABD8#  1   9  1 0ATABD8D 32   * DPART TIME DSCRPTN 9
+     E                    TABD9#  1   9  1 0ATABD9D 32   * DPART TIME DSCRPTN 1
+     E                    TABDY#  1   7  1 0ATABDYD 16   * WEEK DAY DESCRIPTION
+     E                    TABTP#  1   9  1 0ATABTPD 22   * TICKET PRICES DSCRPTN
+     I*
+     I            DS
+     I                                        1  18 ARRINT
+     I I            3                     B   1   20FLDL01
+     I                                        3  18 ARRI16
+     I*
+     I            DS
+     I                                        1  18 ARRCTY
+     I I                                  B   1   20ARRCLN
+     I                                        3  18 ARRC16
+     I*
+     I            DS
+     I                                        1  18 DEPINT
+     I I            3                     B   1   20FLDL03
+     I                                        3  18 DEPI16
+     I*
+     I            DS
+     I                                        1  18 DEPCTY
+     I I                                  B   1   20DEPCLN
+     I                                        3  18 DEPC16
+     I*
+     I            DS
+     I                                        1  34 AIRLIN
+     I I            3                     B   1   20FLDL05
+     I                                        3  34 AIRL32
+     I*
+     I            DS
+     I                                        1  18 DAYOWK
+     I I                                  B   1   20DAYOLN
+     I                                        3  18 DAYO16
+     I*
+     I            DS
+     I                                        1  34 ARRTIM
+     I I            8                     B   1   20FLDL07
+     I                                        3  34 ARRT32
+     I*
+     I            DS
+     I                                        1  34 DEPTIM
+     I I            8                     B   1   20FLDL08
+     I                                        3  34 DEPT32
+     I*
+     I            DS
+     I                                        1  24 TICKTS
+     I I            3                     B   1   20FLDL09
+     I                                        3  24 TICK22
+     I*
+     IFLGHTA      DS
+     I                                        1   1 WEEKA
+     I                                        2   2 TIMEA
+     I                                        3   7 COUNTA
+     I*
+     I              '                '    C         @RESET
+     I              '0'                   C         @OFF
+     I              '1'                   C         @ON
+     I*
+     C                     Z-ADD250       SEATS#  90        * SET OUTPUT
+     C                     Z-ADD1250      MILES#  90        * SET OUTPUT
+     C*
+     C                     MOVELFRCALN    AIRL32            * MOVE TO OUTPUT
+     C                     MOVELFRCINT    DEPI16            * MOVE TO OUTPUT
+     C           ' '       CHEKRFRCNAM    DEPCLN            * SET ERR MESSAGE
+     C                     MOVELFRCNAM    DEPC16            * MOVE TO OUTPUT
+     C*
+     C  N77                Z-ADD00001     FCOUNT  50 77     * UPDATE TIME LCV
+     C*
+     C           @RESET    SETLLTOCITY                      * RESTART TOCITY
+     C*
+     C           *IN88     DOWEQ@OFF                        * DO UNTIL EOF
+     C*
+     C                     READ TOCITY                   88 * READ TO CITIES
+     C*
+     C           *IN88     CABEQ@ON       END               * IF EOF GOTO END
+     C           TOCNAM    CABEQFRCNAM    NXTCTY            * NOT IF SAME CITY
+     C*
+     C           ' '       CHEKRTOCNAM    ARRCLN            * SET ERR MESSAGE
+     C                     MOVELTOCNAM    ARRC16            * MOVE TO OUTPUT
+     C                     MOVELTOCINT    ARRI16            * MOVE TO OUTPUT
+     C*
+     C                     Z-ADD1         BGNNBR  60        * START LCV TIMEDAY
+     C                     Z-ADD9         ENDNBR  60        * START LCV TIMEDAY
+     C                     Z-ADD0         RTRAND  60        * START LCV TIMEDAY
+     C                     CALL 'RTRAND'                    * GET RANDOM NUM
+     C                     PARM           BGNNBR
+     C                     PARM           ENDNBR
+     C                     PARM           RTRAND
+     C*
+     C                     Z-ADDRTRAND    RTVNUM  10        * START LCV TIMEDAY
+     C*
+     C                     Z-ADD1         WEEKCT  10        * START LCV WEEKDAY
+     C*
+     C           WEEKCT    DOWGE1                           * FOR EACH DAY-O-WK
+     C           WEEKCT    ANDLE7                           * FOR TIME-O-DAY
+     C*
+     C           WEEKCT    LOKUPTABDY#    TABDYD         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABDYD    DAYO16            * MOVE TO OUTPUT
+     C           ' '       CHEKRTABDYD    DAYOLN            * SET ERR MESSAGE
+     C*
+     C                     Z-ADD1         TIMECT  10        * START LCV TIMEDAY
+     C*
+     C           TIMECT    DOWGE1                           * FOR TIME-O-DAY
+     C           TIMECT    ANDLE9                           * FOR TIME-O-DAY
+     C*
+     C           TIMECT    LOKUPTABTP#    TABTPD         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABTPD    TICK22            * MOVE TO OUTPUT
+     C*
+     C                     MOVE *BLANKS   ARRT32            * MOVE TO OUTPUT
+     C                     MOVE *BLANKS   DEPT32            * MOVE TO OUTPUT
+     C*
+     C                     SELEC                            * PRCSS RANDOM NO
+     C           TIMECT    WHEQ 1                           * RANDOM = 1
+     C           RTVNUM    LOKUPTABA1#    TABA1D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD1#    TABD1D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA1D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD1D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 2                           * RANDOM = 2
+     C           RTVNUM    LOKUPTABA2#    TABA2D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD2#    TABD2D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA2D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD2D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 3                           * RANDOM = 3
+     C           RTVNUM    LOKUPTABA3#    TABA3D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD3#    TABD3D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA3D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD3D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 4                           * RANDOM = 4
+     C           RTVNUM    LOKUPTABA4#    TABA4D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD4#    TABD4D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA4D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD4D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 5                           * RANDOM = 5
+     C           RTVNUM    LOKUPTABA5#    TABA5D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD5#    TABD5D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA5D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD5D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 6                           * RANDOM = 6
+     C           RTVNUM    LOKUPTABA6#    TABA6D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD6#    TABD6D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA6D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD6D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 7                           * RANDOM = 7
+     C           RTVNUM    LOKUPTABA7#    TABA7D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD7#    TABD7D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA7D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD7D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 8                           * RANDOM = 8
+     C           RTVNUM    LOKUPTABA8#    TABA8D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD8#    TABD8D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA8D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD8D    DEPT32            * MOVE TO OUTPUT
+     C           TIMECT    WHEQ 9                           * RANDOM = 9
+     C           RTVNUM    LOKUPTABA9#    TABA9D         15 * SRCH TABL 4 DSCR
+     C           RTVNUM    LOKUPTABD9#    TABD9D         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABA9D    ARRT32            * MOVE TO OUTPUT
+     C                     MOVELTABD9D    DEPT32            * MOVE TO OUTPUT
+     C                     ENDSL
+     C*
+     C                     MOVE WEEKCT    WEEKA
+     C                     MOVE TIMECT    TIMEA
+     C                     MOVE FCOUNT    COUNTA
+     C                     MOVE FLGHTA    FLGHTN  90
+     C*
+     C                     EXCPTADDREC
+     C*
+     C           FCOUNT    ADD  00001     FCOUNT            * UPDATE TIME LCV
+     C           TIMECT    ADD  1         TIMECT            * UPDATE TIME LCV
+     C*
+     C                     ENDDO
+     C*
+     C           WEEKCT    ADD  1         WEEKCT            * UPDATE WEEKDAY LCV
+     C*
+     C                     ENDDO
+     C*
+     C           NXTCTY    TAG
+     C                     ENDDO
+     C*
+     C*
+     C           END       TAG
+     C                     SETOF                         88
+     C*
+     OFLIGHTS EADD             ADDREC
+     O                         FLGHTN     4B
+     O                         DEPINT    22
+     O                         DEPCTY    40
+     O                         DAYOWK    58
+     O                         ARRINT    76
+     O                         ARRCTY    94
+     O                         DEPTIM   128
+     O                         ARRTIM   162
+     O                         AIRLIN   196
+     O                         SEATS#   200B
+     O                         TICKTS   224
+     O                         MILES#   228B
+** ARRIVAL TIMES - 1
+109:05 AM
+209:12 AM
+309:19 AM
+409:26 AM
+509:33 AM
+609:40 AM
+709:47 AM
+809:54 AM
+910:01 AM
+** ARRIVAL TIMES - 2
+110:08 AM
+210:15 AM
+310:22 AM
+410:29 AM
+510:36 AM
+610:43 AM
+710:50 AM
+810:57 AM
+911:03 AM
+** ARRIVAL TIMES - 3
+111:10 AM
+211:17 AM
+311:24 AM
+411:31 AM
+511:38 AM
+611:45 AM
+711:52 AM
+811:59 AM
+912:06 PM
+** ARRIVAL TIMES - 4
+112:13 PM
+212:20 PM
+312:27 PM
+412:34 PM
+512:41 PM
+612:48 PM
+712:55 PM
+801:02 PM
+901:09 PM
+** ARRIVAL TIMES - 5
+101:27 PM
+201:34 PM
+301:41 PM
+401:48 PM
+502:27 PM
+602:34 PM
+702:41 PM
+802:48 PM
+902:55 PM
+** ARRIVAL TIMES - 6
+103:05 PM
+203:12 PM
+303:19 PM
+403:26 PM
+503:33 PM
+603:40 PM
+703:47 PM
+803:54 PM
+904:01 PM
+** ARRIVAL TIMES - 7
+104:33 PM
+204:40 PM
+304:47 PM
+404:54 PM
+505:01 PM
+605:08 PM
+705:15 PM
+805:22 PM
+905:29 PM
+** ARRIVAL TIMES - 8
+106:34 PM
+206:41 PM
+306:48 PM
+406:55 PM
+507:02 PM
+607:09 PM
+707:16 PM
+807:23 PM
+907:30 PM
+** ARRIVAL TIMES - 9
+108:22 PM
+208:29 PM
+308:36 PM
+408:43 PM
+509:00 PM
+609:07 PM
+709:14 PM
+809:21 PM
+909:28 PM
+** DEPARTURE TIMES - 1
+107:05 AM
+207:12 AM
+307:19 AM
+407:26 AM
+507:33 AM
+607:40 AM
+707:47 AM
+807:54 AM
+908:01 AM
+** DEPARTURE TIMES - 2
+108:08 AM
+208:15 AM
+308:22 AM
+408:29 AM
+508:36 AM
+608:43 AM
+708:50 AM
+808:57 AM
+909:03 AM
+** DEPARTURE TIMES - 3
+109:10 AM
+209:17 AM
+309:24 AM
+409:31 AM
+509:38 AM
+609:45 AM
+709:52 AM
+809:59 AM
+910:06 AM
+** DEPARTURE TIMES - 4
+110:13 AM
+210:20 AM
+310:27 AM
+410:34 AM
+510:41 AM
+610:48 AM
+710:55 AM
+811:02 AM
+911:09 AM
+** DEPARTURE TIMES - 5
+111:27 AM
+211:34 AM
+311:41 AM
+411:48 AM
+512:27 PM
+612:34 PM
+712:41 PM
+812:48 PM
+912:55 PM
+** DEPARTURE TIMES - 6
+101:05 PM
+201:12 PM
+301:19 PM
+401:26 PM
+501:33 PM
+601:40 PM
+701:47 PM
+801:54 PM
+902:01 PM
+** DEPARTURE TIMES - 7
+102:33 PM
+202:40 PM
+302:47 PM
+402:54 PM
+503:01 PM
+603:08 PM
+703:15 PM
+803:22 PM
+903:29 PM
+** DEPARTURE TIMES - 8
+104:34 PM
+204:41 PM
+304:48 PM
+404:55 PM
+505:02 PM
+605:09 PM
+705:16 PM
+805:23 PM
+905:30 PM
+** DEPARTURE TIMES - 9
+106:22 PM
+206:29 PM
+306:36 PM
+406:43 PM
+507:00 PM
+607:07 PM
+707:14 PM
+807:21 PM
+907:28 PM
+** DAY OF THE WEEK
+1Monday
+2Tuesday
+3Wednesday
+4Thursday
+5Friday
+6Saturday
+7Sunday
+** TICKET PRICES
+1169
+2179
+3199
+4199
+5299
+6299
+7299
+8269
+9199

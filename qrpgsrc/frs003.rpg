@@ -1,0 +1,250 @@
+     FFRS003DFCF  E                    WORKSTN      KINFDS WSDS
+     FORDNAME IF  F     138 09AI     1 DISK
+     FFLIGHTSZIF  F     233 09AI     1 DISK
+     E                    TF       9999 11 0
+     I*
+     IORDNAME NS  01
+     I                                        1   90ORDRNO
+     I                                    B  10  130AGNTNO
+     I                                    B  14  170CUSTNO
+     I                                       18  83 CNAME
+     I                                    B  84  870FLGTNO
+     I                                       88 113 DEPART
+     I                                    B 114 1170TCKTNO
+     I                                      118 120 CLASS
+     I                                      121 138 SENDSG
+     I*
+     IFLIGHTSZNS  02
+     I                                        1   90FFLGHT
+     I                                       10  27 FDPCIN
+     I                                       28  45 FDPCNM
+     I                                       46  63 FDYOWK
+     I                                       64  81 FARCIN
+     I                                       82  99 FARCNM
+     I                                      100 133 FDPTTM
+     I                                      134 167 FARVTM
+     I                                      168 201 FAIRLN
+     I                                    B 202 2050FSEATS
+     I                                      206 229 FTCKTP
+     I                                    B 230 2330FMILES
+     I*
+     IFLDS        DS
+     I                                        1   5 INZTYP
+     I*
+     I              X'31'                 C         @F01
+     I              X'33'                 C         @F03
+     I              X'39'                 C         @F09
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F3'                 C         @HELP
+     I              X'F6'                 C         @PRINT
+     I*
+     I              '0'                   C         @OFF
+     I              '1'                   C         @ON
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     I           SDS
+     I                                        1  10 @PGM                   _ERR_
+     I                                       11  150@STAT                  _ERR_
+     I                                       37  390@PARMS                 _ERR_
+     I                                       40  46 @MSGID                 _ERR_
+     I                                       91 169 @DATA                  _ERR_
+     I                                      244 253 @JOBNA                 _ERR_
+     I                                      254 263 @USRNA                 _ERR_
+     I                                      264 269 @JOBNO                 _ERR_
+     I                                      304 313 @SRCF                  _ERR_
+     I                                      314 323 @SRCL                  _ERR_
+     I                                      324 333 @SRCM                  _ERR_
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I*
+     I            DS
+     I                                        1  24 PRICEA
+     I                                    B   1   20PRICEL
+     I                                        3   5 PRICEN
+     I                                        6  24 BLNK19
+     I*
+     I            DS
+     I                                        1  34 DPTIMA
+     I                                    B   1   20DPTIML
+     I                                        3  10 DPTIM8
+     I                                       11  34 DPREST
+     I*
+     I            DS
+     I                                        1  34 ARTIMA
+     I                                    B   1   20ARTIML
+     I                                        3  10 ARTIM8
+     I                                       11  34 ARREST
+     I*
+     I            DS
+     I                                        1  34 AIRLNA
+     I                                    B   1   20AIRLNL
+     I                                        3   5 AIRLN3
+     I                                        6  34 ALREST
+     I*
+     I            DS
+     I                                        1  66 CUSTKY
+     I                                    B   1   20CUSTLN
+     I                                        3  66 CUSTNM
+     I*
+     I            DS
+     I                                        1   3 CLASSK
+     I                                    B   1   20CLASSL
+     I                                        3   3 CLASSN
+     I*
+     I            DS
+     I                                        1  18 DDPCNA
+     I                                    B   1   20DDPCNL
+     I                                        3  18 DDPCNM
+     I*
+     I            DS
+     I                                        1  18 DARCNA
+     I                                    B   1   20DARCNL
+     I                                        3  18 DARCNM
+     I*
+     I            DS
+     I                                        1  26 FILDPK
+     I                                        1   4 FILYY
+     I I            '-'                       5   5 FDASH1
+     I                                        6   7 FILMM
+     I I            '-'                       8   8 FDASH2
+     I                                        9  10 FILDD
+     I I                                     11  26 FREST
+     I*
+     C*
+     C           *ENTRY    PLIST
+     C                     PARM           AGENT#  90
+     C                     PARM           PORDER  90
+     C*                                                     * D=DELETE
+     C*                    RESETFRSDSP                      * REFRESH SCREEN -
+     C                     EXSR INZSR
+     C*
+     C           @EXIT     DOUEQ@TRUE
+     C*
+     C                     WRITEMSGCTL                      * WRITE MSGCTL
+     C                     EXFMTFRSDSP                      * DISPLAY SCREEN
+     C*
+     C           KEY       CASEQ@F03      @F03SR            * F03 EXIT
+     C           KEY       CASEQ@F09      @F09SR            * F03 EXIT
+     C           KEY       CASEQ@F12      @F12SR            * F12 CANCEL
+     C                     ENDCS
+     C*
+     C                     ENDDO                            * END DO
+     C*
+     C           END       TAG
+     C*
+     C                     MOVE *ON       *INLR             * LAST RECORD=ON
+     C*
+     C*
+     C*
+     C           INZSR     BEGSR                            * SET OUTPT SCREEN 1
+     C*
+     C                     SETOF                       4450 * ERROR IND. SC 1
+     C*
+     C           *NAMVAR   DEFN           FLDS
+     C                     IN   FLDS
+     C*
+     C                     MOVE ' '       MSGID   7
+     C                     MOVE *BLANKS   MSGDTA 80
+     C                     MOVE @PGM      MSGQUE 10
+     C*
+     C                     MOVE @FALSE    @EXIT   1
+     C                     MOVE @PGM      PGMQ
+     C*
+     C                     Z-ADDPORDER    ORDNUM                       ACTIVE
+     C*
+     C           ORDNUM    CHAINORDNAME              44
+     C*
+     C                     MOVE DEPART    FILDPK
+     C                     MOVE FILYY     DOFYR
+     C                     MOVE FILMM     DOFMON
+     C                     MOVE FILDD     DOFDAY
+     C*
+     C                     MOVE CNAME     CUSTKY
+     C                     MOVELCUSTNM    CUSNAM
+     C*
+     C                     MOVE CLASS     CLASSK
+     C*
+     C           CLASSN    IFEQ '1'                         * RUN INTERACTIVE
+     C                     MOVE 'X'       COSFIR
+     C                     ENDIF
+     C           CLASSN    IFEQ '2'                         * RUN INTERACTIVE
+     C                     MOVE 'X'       COSBUS
+     C                     ENDIF
+     C           CLASSN    IFEQ '3'                         * RUN INTERACTIVE
+     C                     MOVE 'X'       COSECO
+     C                     ENDIF
+     C*
+     C                     Z-ADDTCKTNO    TCKETS                       ACTIVE
+     C*
+     C           FLGTNO    CHAINFLIGHTSZ             45
+     C*
+     C                     MOVE FDPCNM    DDPCNA
+     C                     MOVELDDPCNM    FCITY
+     C                     MOVE FARCNM    DARCNA
+     C                     MOVELDARCNM    TCITY
+     C*
+     C                     MOVE *BLANKS   DPTIMA            * SET ERR MESSAGE
+     C                     MOVE *BLANKS   ARTIMA            * SET ERR MESSAGE
+     C                     MOVE *BLANKS   AIRLNA            * SET ERR MESSAGE
+     C                     MOVE *BLANKS   PRICEA            * SET ERR MESSAGE
+     C*
+     C                     Z-ADDFFLGHT    FLIGHT
+     C                     MOVE FDPTTM    DPTIMA
+     C                     MOVELDPTIM8    DPTIME
+     C                     MOVE FARVTM    ARTIMA
+     C                     MOVELARTIM8    ARTIME
+     C                     MOVE FAIRLN    AIRLNA
+     C                     MOVELAIRLN3    AIRLIN
+     C                     MOVELFTCKTP    PRICEA
+     C                     Z-ADD0.00      PRICE             * RETURN START TIME
+     C                     MOVE PRICEN    PRICE             * RETURN START TIME
+     C           PRICEL    IFEQ 2                           * RETURN START TIME
+     C           PRICE     MULT 10        PRICE             * RETURN START TIME
+     C                     ELSE
+     C           PRICE     MULT 100       PRICE             * RETURN START TIME
+     C                     ENDIF
+     C*
+     C                     Z-ADD0         ADJPRC  62
+     C           COSFIR    IFNE ' '                         * RUN INTERACTIVE
+     C           PRICE     MULT 3         ADJPRC
+     C                     ENDIF
+     C           COSBUS    IFNE ' '                         * RUN INTERACTIVE
+     C           PRICE     MULT 2         ADJPRC
+     C                     ENDIF
+     C           COSECO    IFNE ' '                         * RUN INTERACTIVE
+     C                     Z-ADDPRICE     ADJPRC
+     C                     ENDIF
+     C*
+     C           TCKETS    IFGE 01                          * RUN INTERACTIVE
+     C                     Z-ADDADJPRC    PRICE
+     C           TCKETS    MULT PRICE     PRICE
+     C           PRICE     MULT .04       TAXDUE
+     C           PRICE     ADD  TAXDUE    TOTAL
+     C                     END
+     C*
+     C           INZTYP    IFEQ 'CLEAR'
+     C                     CLEARTF
+     C                     ELSE
+     C                     RESETTF
+     C                     END
+     C*
+     C           ENDINZ    ENDSR
+     C*
+     C*
+     C           @F03SR    BEGSR                            * F3 SUBROUTINE
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     ENDSR
+     C*
+     C*
+     C           @F09SR    BEGSR                            * F9 SUBROUTINE
+     C                     CALL 'QUSCMDLN'                  * GET CMD LINE
+     C                     ENDSR
+     C*
+     C*
+     C           @F12SR    BEGSR
+     C                     MOVE @TRUE     @EXIT
+     C                     ENDSR

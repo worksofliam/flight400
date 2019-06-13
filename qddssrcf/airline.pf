@@ -1,0 +1,7 @@
+                                            UNIQUE
+                R AIRLNR
+                  AIRLNM        16A         TEXT('AIRLINE NAME')
+                                            COLHDG('AIRLINE NAME')
+                  AIRLIN         3A         TEXT('AIRLINE INITIALS')
+                                            COLHDG('AIRLINE' 'INITIALS')
+                K AIRLNM

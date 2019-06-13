@@ -1,0 +1,15 @@
+     A          R FLGHTR                    PFILE(FLIGHTS)
+     A            DPCNAM                    RENAME(DEPARTURE)
+     A            ARCNAM                    RENAME(ARRIVAL)
+     A            DYOFWK                    RENAME(DAY_O00001)
+     A            FLGHTN                    RENAME(FLIGH00001)
+     A            DPCINT                    RENAME(DEPAR00001)
+     A            ARCINT                    RENAME(ARRIV00001)
+     A            DPTIME                    RENAME(DEPAR00002)
+     A            ARTIME                    RENAME(ARRIV00002)
+     A            AIRLNM                    RENAME(AIRLINES)
+     A            TCKTPR                    RENAME(TICKE00001)
+     A          K DPCNAM
+     A          K ARCNAM
+     A          K DYOFWK
+     A          K FLGHTN

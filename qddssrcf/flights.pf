@@ -1,0 +1,53 @@
+                                            UNIQUE
+                R FLIGHTS
+                  FLIGH00001     9B 0       ALIAS(FLIGHT_NUMBER)
+                                            COLHDG('FLIGHT_NUMBER')
+                                            ALWNULL
+                  DEPAR00001    16A         ALIAS(DEPARTURE_INITIALS)
+                                            COLHDG('DEPARTURE_INITIALS')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  DEPARTURE     16A         ALWNULL
+                                            COLHDG('DEPARTURE')
+                                            CCSID(37)
+                                            VARLEN
+                  DAY_O00001    16A         ALIAS(DAY_OF_WEEK)
+                                            COLHDG('DAY_OF_WEEK')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  ARRIV00001    16A         ALIAS(ARRIVAL_INITIALS)
+                                            COLHDG('ARRIVAL_INITIALS')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  ARRIVAL       16A         ALWNULL
+                                            COLHDG('ARRIVAL')
+                                            CCSID(37)
+                                            VARLEN
+                  DEPAR00002    32A         ALIAS(DEPARTURE_TIME)
+                                            COLHDG('DEPARTURE_TIME')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  ARRIV00002    32A         ALIAS(ARRIVAL_TIME)
+                                            COLHDG('ARRIVAL_TIME')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  AIRLINES      32A         ALWNULL
+                                            COLHDG('AIRLINES')
+                                            CCSID(37)
+                                            VARLEN
+                  SEATS00001     9B 0       ALIAS(SEATS_AVAILABLE)
+                                            COLHDG('SEATS_AVAILABLE')
+                                            ALWNULL
+                  TICKE00001    22A         ALIAS(TICKET_PRICE)
+                                            COLHDG('TICKET_PRICE')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                  MILEAGE        9B 0       ALWNULL
+                                            COLHDG('MILEAGE')
+                K FLIGH00001

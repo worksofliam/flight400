@@ -1,0 +1,82 @@
+     A*%%TS  SD  19970811  170557  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      CA02(02)
+     A                                      CA03(03)
+     A                                      CF04(04)
+     A                                      CF05(05)
+     A                                      CF10(10)
+     A                                      CF11(11)
+     A                                      CA12(12)
+     A          R SELCTR
+     A*%%TS  SD  19970811  170557  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      CHANGE(88 'A FIELD WAS CHANGED')
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A                                  1  2'Flight Maintenance System - Flight-
+     A                                       City Table'
+     A                                      DSPATR(HI)
+     A                                  1 64'System:'
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      DSPATR(HI)
+     A                                  3  2'Type choices, press F10 to continu-
+     A                                      e'
+     A                                      COLOR(BLU)
+     A                                  6  2'City Name . . . . . . . . . .'
+     A                                      COLOR(BLU)
+     A            CTYNAM        16A  B  6 33TEXT('City Name')
+     A                                      CHECK(LC)
+     A                                  6 52'Name'
+     A                                      COLOR(BLU)
+     A                                  6 60'('
+     A                                      COLOR(BLU)
+     A                                  6 62'F4'
+     A                                      DSPATR(HI)
+     A                                  6 65'to Select )'
+     A                                      COLOR(BLU)
+     A                                  8  2'City Initials . . . . . . . . . . -
+     A                                      . . . .'
+     A                                      COLOR(BLU)
+     A            CTYINT         3A  B  8 46
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A                                      TEXT('City Initials')
+     A                                  8 52'Initials'
+     A                                      COLOR(BLU)
+     A                                 23  2'F2=Refresh  F3=Exit  F10=Add/Updat-
+     A                                      e Selection  F11=Delete Selection'
+     A                                      COLOR(BLU)
+     A                                 10  2'Primary Airline . . . . . . . . . -
+     A                                      . . . .'
+     A                                      COLOR(BLU)
+     A                                 10 52'Name'
+     A                                      COLOR(BLU)
+     A                                 10 60'('
+     A                                      COLOR(BLU)
+     A                                 10 62'F5'
+     A                                      DSPATR(HI)
+     A                                 10 65'to Select )'
+     A                                      COLOR(BLU)
+     A            CTYAIR         3A  B 10 46
+     A  52                                  DSPATR(RI)
+     A  52                                  DSPATR(PC)
+     A                                      TEXT('City Initials')
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      SFLSIZ(4)
+     A                                      SFLPAG(1)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ

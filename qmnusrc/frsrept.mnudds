@@ -1,0 +1,55 @@
+     A* Free Form Menu: FRSREPT
+     A*%%TS  SD  19970812  162613  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3                  -
+     A                                             27 132 *DS4)
+     A                                      CHGINPDFT
+     A                                      INDARA
+     A                                      PRINT(*LIBL/QSYSPRT)
+     A          R FRSREPT
+     A*%%TS  SD  19970810  011542  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      DSPMOD(*DS3)
+     A                                      LOCK
+     A                                      SLNO(01)
+     A                                      CLRL(*ALL)
+     A                                      ALWROL
+     A                                      CF03
+     A                                      HELP
+     A                                      HOME
+     A                                      HLPRTN
+     A                                  1  2'FRSREPT'
+     A                                      COLOR(BLU)
+     A                                  1 23'Flight Reservation System - Report-
+     A                                      s'
+     A                                      DSPATR(HI)
+     A                                  3  2'Select one of the following:'
+     A                                      COLOR(BLU)
+     A                                  5  7'1.'
+     A                                      DSPATR(HI)
+     A                                  6  7'2.'
+     A                                      DSPATR(HI)
+     A                                  8  7'4.'
+     A                                      DSPATR(HI)
+     A* CMDPROMPT  Do not delete this DDS spec.
+     A                                020  2'Selection or command              -
+     A                                          '
+     A                                  5 10'Report of Orders by Agent - All Ag-
+     A                                      ents (Printed)'
+     A                                  6 10'Report of Orders by Agent - Select-
+     A                                       Agent (Display)'
+     A                                 19  6'90.'
+     A                                      DSPATR(HI)
+     A                                 19 10'Signoff'
+     A                                  1 12TIME
+     A                                      COLOR(BLU)
+     A                                  1 61DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      COLOR(BLU)
+     A                                  7  7'3.'
+     A                                      DSPATR(HI)
+     A                                  7 10'Report of Passengers by Flight - S-
+     A                                      elect Flight (Printed)'
+     A                                  8 10'Report of Passengers by Flight - S-
+     A                                      elect Flight (Display)'

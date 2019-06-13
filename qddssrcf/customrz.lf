@@ -1,0 +1,4 @@
+     A          R CUSTZ                     PFILE(CUSTOMERS)
+     A            CUSTNO         9S 0       RENAME(CUSTO00001)
+     A            CUSTNM                    RENAME(CUSTO00002)
+     A          K CUSTNO

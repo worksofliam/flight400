@@ -1,0 +1,5 @@
+                                            UNIQUE
+                R NAMER
+                  LASTNM        15A         TEXT('LAST NAME')
+                                            COLHDG('LAST NAME')
+                K LASTNM

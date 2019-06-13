@@ -1,0 +1,7 @@
+                                            UNIQUE
+                R TOCTYR
+                  TOCNAM        16A         TEXT('TO CITY NAME')
+                                            COLHDG('TO CITY NAME')
+                  TOCINT         3A         TEXT('TO CITY INITIALS')
+                                            COLHDG('   TO' '  CITY' 'INITIALS')
+                K TOCNAM

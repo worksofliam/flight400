@@ -1,0 +1,5 @@
+     A          R AGNTRZ                    PFILE(AGENTS)
+     A            AGNT#Z         9S 0       RENAME(AGENT_NO)
+     A            AGNTNZ                    RENAME(AGENT_NAME)
+     A            AGNTPZ                    RENAME(AGENT00001)
+     A          K AGNT#Z

@@ -1,0 +1,364 @@
+     FFLIGHTSLIF  F     220 58AI     1 DISK
+     FFRS404DFCF  E                    WORKSTN      KINFDS WSDS
+     F                                        SFLRN KSFILE SFL
+     I*
+     IFLIGHTSLNS  01
+     I                                        1  18 FDPCNM
+     I                                       19  36 FARCNM
+     I                                       37  54 FDYOWK
+     I                                    B  55  580FFLGHT
+     I                                       59  76 FDPCIN
+     I                                       77  94 FARCIN
+     I                                       95 128 FDPTTM
+     I                                      129 162 FARVTM
+     I                                      163 196 FAIRLN
+     I                                      197 220 FTCKTP
+     I*
+     I              X'31'                 C         @F01
+     I              X'33'                 C         @F03
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F3'                 C         @HELP
+     I              X'F4'                 C         @PAGUP
+     I              X'F5'                 C         @PAGDN
+     I              X'F6'                 C         @PRINT
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     IAPIERR      DS
+     I I            256                   B   1   40ERRSIZ
+     I I            0                     B   5   80ERRLEN
+     I I                                      9  15 ERRMIC
+     I I                                     16  16 ERRNBR
+     I I                                     17 256 ERRDTA
+     I*
+     I            DS
+     I I            0                     B   1   40MSGCTR
+     I I            80                    B   5   80MSGLEN
+     I I            'FRSMSGF   FLGHT400  '    9  28 MSGF
+     I I            '*INFO     '             29  38 MSGTYP
+     I I            '    '                   39  42 MSGKEY
+     I*
+     I            DS
+     I I            0                     B   1   40RMVCTR
+     I I            '*         '              5  14 RMVMSQ
+     I I            '*ALL      '             15  24 RMVCLR
+     I I            '    '                   25  28 RMVKEY
+     I*
+     I           SDS
+     I                                        1  10 @PGM                   _ERR_
+     I                                       11  150@STAT                  _ERR_
+     I                                       37  390@PARMS                 _ERR_
+     I                                       40  46 @MSGID                 _ERR_
+     I                                       91 169 @DATA                  _ERR_
+     I                                      244 253 @JOBNA                 _ERR_
+     I                                      254 263 @USRNA                 _ERR_
+     I                                      264 269 @JOBNO                 _ERR_
+     I                                      304 313 @SRCF                  _ERR_
+     I                                      314 323 @SRCL                  _ERR_
+     I                                      324 333 @SRCM                  _ERR_
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I                                    B 378 3790PAGRRN
+     I*
+     I            DS
+     I                                        1  58 FLTKEY
+     I                                    B   1   20DSFRL
+     I                                        3  18 DSFRC
+     I                                    B  19  200DSTOL
+     I                                       21  36 DSTOC
+     I                                    B  37  380DSDOWL
+     I                                       39  54 DSDOWK
+     I                                    B  55  580FLGT09
+     I*
+     I            DS
+     I                                        1  18 DDPCNA
+     I                                    B   1   20DDPCNL
+     I                                        3  18 DDPCNM
+     I*
+     I            DS
+     I                                        1  18 DARCNA
+     I                                    B   1   20DARCNL
+     I                                        3  18 DARCNM
+     I*
+     I            DS
+     I                                        1  18 DYOWKA
+     I                                    B   1   20DYOWKL
+     I                                        3   4 DYOWKN
+     I                                        3  18 DYOWKF
+     I*
+     I            DS
+     I                                        1  18 DPCINA
+     I                                    B   1   20DPCINL
+     I                                        3   5 DPCINN
+     I                                        6  18 BLN12B
+     I*
+     I            DS
+     I                                        1  18 ARCINA
+     I                                    B   1   20ARCINL
+     I                                        3   5 ARCINN
+     I                                        6  18 BLN12C
+     I*
+     I            DS
+     I                                        1  24 PRICEA
+     I                                    B   1   20PRICEL
+     I                                        3   5 PRICEN
+     I                                        6  24 BLNK19
+     I*
+     I            DS
+     I                                        1  34 DPTIMA
+     I                                    B   1   20DPTIML
+     I                                        3  10 DPTIM8
+     I                                       11  34 DPREST
+     I*
+     I            DS
+     I                                        1  34 ARTIMA
+     I                                    B   1   20ARTIML
+     I                                        3  10 ARTIM8
+     I                                       11  34 ARREST
+     I*
+     I            DS
+     I                                        1  34 AIRLNA
+     I                                    B   1   20AIRLNL
+     I                                        3   5 AIRLN3
+     I                                        6  34 ALREST
+     C*
+     C           *ENTRY    PLIST
+     C                     PARM           IFLTKY 58         * RETURN START TIME
+     C                     PARM           PFLGHT  70        * RETURN START TIME
+     C                     PARM           PDPTIM 34         * RETURN START TIME
+     C                     PARM           PARTIM 34         * RETURN START TIME
+     C                     PARM           PAIRLN 34         * RETURN START TIME
+     C                     PARM           PPRICE 24         * RETURN START TIME
+     C*
+     C                     RESET@EXIT                       * RESET EXIT FLAG
+     C                     EXSR @RMVMS
+     C                     EXSR @RESET                      *
+     C                     EXSR @LOAD                       * LOAD SFL
+     C*
+     C*
+     C           @EXIT     DOUEQ@TRUE                       * DO UNTIL F3/F12
+     C*
+     C                     WRITEFRSWIN                      * WRITE MSGCTL
+     C                     WRITEFKEYS                       * WRITE SFL CMDL
+     C                     WRITEMSGCTL                      * WRITE MSGCTL
+     C                     EXFMTSFLCTL                      * WRITE SFL CTL
+     C*
+     C                     SETOF                         50 * SET ERR INDICATOR
+     C*
+     C                     Z-ADDPAGRRN    SFLPS
+     C*
+     C           KEY       CASEQ@F03      @F03SR            F03 EXIT
+     C           KEY       CASEQ@F12      @F12SR            F12 CANCEL
+     C           KEY       CASEQ@PAGDN    @PGDN             PAGE DOWN
+     C                     CAS            @ENTKY            Enter
+     C                     ENDCS
+     C*
+     C           SELIO     CABNE'1'       NEXT
+     C           KEY       CABEQ@PAGDN    NEXT              PAGE DOWN
+     C*
+     C                     EXSR @RMVMS                      * SND ERR MESSAGE
+     C*
+     C           NEXT      TAG
+     C                     ENDDO
+     C*
+     C*
+     C                     MOVE *ON       *INLR
+     C*
+     C*
+     C*
+     C           *INZSR    BEGSR                            * INIT SUBROUTN
+     C*
+     C                     MOVE ' '       MSGID   7
+     C                     MOVE *BLANKS   MSGDTA 80
+     C                     MOVE @PGM      MSGQUE 10
+     C                     MOVE @PGM      PGMQ
+     C*
+     C                     MOVE @FALSE    @EXIT   1         * PGM EXIT = OFF
+     C*
+     C                     Z-ADD0         SFLRN   40
+     C                     Z-ADD0         ENDRN   40
+     C                     Z-ADD1         SFLPS
+     C*
+     C           IFLTKY    SETLLFLIGHTSL
+     C                     MOVE IFLTKY    FLTKEY
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @LOAD     BEGSR
+     C*
+     C                     DO   6
+     C                     READ FLIGHTSL                 99
+     C*
+     C           *IN99     IFEQ *ON
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     MOVE FDPCNM    DDPCNA
+     C                     MOVE FARCNM    DARCNA
+     C                     MOVE FDYOWK    DYOWKA
+     C           DYOWKF    IFEQ DSDOWK
+     C           DDPCNM    ANDEQDSFRC
+     C           DARCNM    ANDEQDSTOC
+     C                     MOVE FAIRLN    AIRLNA
+     C                     MOVELAIRLN3    AIRLNM
+     C                     Z-ADDFFLGHT    FLGHTN
+     C                     MOVELDYOWKN    DYOFWK
+     C                     MOVE FDPTTM    DPTIMA
+     C                     MOVELDPTIM8    DPTIME
+     C                     MOVE FARVTM    ARTIMA
+     C                     MOVELARTIM8    ARTIME
+     C                     MOVELFTCKTP    PRICEA
+     C                     MOVE PRICEN    PRICE
+     C                     ELSE
+     C                     SETON                         99
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     ADD  1         SFLRN
+     C                     WRITESFL                         * WRITE SFL RCRD
+     C*
+     C                     ENDDO
+     C*
+     C                     Z-ADDFFLGHT    FLGT09            * UPDATE END KEYS
+     C                     Z-ADDSFLRN     ENDRN             * FOR FILE/SUBFILE
+     C*
+     C           *IN99     IFEQ *OFF                        * IF NOT EOF
+     C                     READ FLIGHTSL                 99 * READ ONE MORE
+     C                     ENDIF                            * TO MAKE SURE
+     C*
+     C           SFLRN     IFEQ *ZEROS                      * IF NO RECS ADDED
+     C                     MOVE *OFF      *IN42             * TO SFL SET ERR IND
+     C                     ELSE                             * OTHERWISE
+     C                     MOVE *ON       *IN42             * SET IND TO DSP SFL
+     C                     Z-ADDSFLRN     SFLPS             * SET SFL POSTN TO
+     C                     ENDIF                            * PAGE JUST ADDED
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @RESET    BEGSR
+     C                     MOVE *ON       *IN40
+     C                     WRITEFRSWIN
+     C                     WRITESFLCTL
+     C                     MOVE *OFF      *IN40
+     C                     MOVE *OFF      *IN42
+     C                     RESETSFLRN
+     C                     RESETENDRN
+     C                     RESETSFLPS
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @REPOS    BEGSR
+     C*
+     C                     EXSR @RESET
+     C                     Z-ADDFFLGHT    FLGT09
+     C           FLTKEY    SETLLFLIGHTSL
+     C                     EXSR @LOAD
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @PGDN     BEGSR
+     C*
+     C           *IN99     IFEQ *OFF
+     C           FLTKEY    SETGTFLIGHTSL
+     C                     Z-ADDENDRN     SFLRN
+     C                     EXSR @LOAD
+     C                     ELSE
+     C                     MOVE *ON       *IN60
+     C                     ENDIF
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @ENTKY    BEGSR
+     C*
+     C                     EXSR @RMVMS                      * SND ERR MESSAGE
+     C*
+     C                     READCSFL                    9798 * SELECTION MADE?
+     C*
+     C           *IN97     IFEQ '1'
+     C                     EXSR @REPOS                      * REPOSITN SFL
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ENDSEL                      * REPOSITN SFL
+->   C                     ENDIF
+     C*
+     C           *IN98     DOWEQ*OFF
+     C*
+     C           SELIO     IFEQ '1'
+     C                     Z-ADDFLGHTN    PFLGHT
+     C                     MOVELAIRLNM    AIRLN3
+     C                     MOVE AIRLNA    PAIRLN
+     C                     MOVELDPTIME    DPTIM8
+     C                     MOVE DPTIMA    PDPTIM
+     C                     MOVELARTIME    ARTIM8
+     C                     MOVE ARTIMA    PARTIM
+     C                     MOVELPRICE     PRICEN
+     C                     MOVE PRICEA    PPRICE
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     LEAVE
+     C                     ENDIF
+     C*
+     C                     READCSFL                    9798
+     C*
+->   C           *IN97     IFEQ '1'
+     C                     EXSR @REPOS                      * REPOSITN SFL
+     C                     EXSR @RMVMS                      * SND ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     LEAVE                            * REPOSITN SFL
+->   C                     ENDIF
+     C*
+     C                     ENDDO
+     C*
+     C           ENDSEL    ENDSR
+     C*
+     C*
+     C*
+     C           @RMVMS    BEGSR
+     C                     CALL 'QMHRMVPM'                  * PGM TO RMV PGM MSG
+     C                     PARM           RMVMSQ            * MESSAGE DATA
+     C                     PARM           RMVCTR            * MESSAGE DATA
+     C                     PARM           RMVKEY            * MESSAGE DATA
+     C                     PARM           RMVCLR
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @SNDMS    BEGSR
+     C                     CALL 'QMHSNDPM'                  * PGM TO SND PGM MSG
+     C                     PARM           MSGID             * MESSAGE ID
+     C                     PARM           MSGF              * MESSAGE FILE
+     C                     PARM           MSGDTA            * MESSAGE DATA
+     C                     PARM           MSGLEN            * MESSAGE DATA
+     C                     PARM           MSGTYP            * MESSAGE DATA
+     C                     PARM           MSGQUE            * MESSAGE DATA
+     C                     PARM           MSGCTR            * MESSAGE DATA
+     C                     PARM           MSGKEY            * MESSAGE DATA
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C*
+     C           @F03SR    BEGSR                            * F3 SUBROUTINE
+     C*
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @F12SR    BEGSR
+     C*
+     C                     MOVE @TRUE     @EXIT
+     C*
+     C                     ENDSR

@@ -1,0 +1,57 @@
+     FFNAME   IF  E                    DISK
+     FLNAME   IF  E                    DISK
+     FCUSTOMERO   F      70            DISK                      A
+     I*
+     I              'ABCDEFGHIJKLMNOPQRS- C         UP
+     I              'TUVWXYZ'
+     I              'abcdefghijklmnopqrs- C         LO
+     I              'tuvwxyz'
+     I*
+     I            DS
+     I                                        1  66 CUSTNM
+     I I            64                    B   1   20FLDLEN
+     I                                        3  66 CNAME
+     C*
+     C  N77                Z-ADD1         CUSTNO  90 77     * UPDATE TIME LCV
+     C*
+     C           CUSTNO    DOWLE9999                        * FOR EACH DAY-O-WK
+     C*
+     C                     MOVE *BLANKS   CNAME
+     C*
+     C                     Z-ADD1         BGNNBR  60        * START LCV TIMEDAY
+     C                     Z-ADD4724      ENDNBR  60        * START LCV TIMEDAY
+     C                     Z-ADD0         RTVNUM  60        * START LCV TIMEDAY
+     C                     CALL 'RTRAND'                    * GET RANDOM NUM
+     C                     PARM           BGNNBR
+     C                     PARM           ENDNBR
+     C                     PARM           RTVNUM
+     C*
+     C           RTVNUM    CHAINLNAME                79
+     C           UP:LO     XLATELASTNM:2  LASTNM
+     C                     MOVELLASTNM    CNAME
+     C*
+     C                     Z-ADD1369      ENDNBR            * START LCV TIMEDAY
+     C                     Z-ADD0         RTVNUM            * START LCV TIMEDAY
+     C                     CALL 'RTRAND'                    * GET RANDOM NUM
+     C                     PARM           BGNNBR
+     C                     PARM           ENDNBR
+     C                     PARM           RTVNUM
+     C*
+     C                     MOVE ','       COMMA   1         * GET RANDOM NUM
+     C           RTVNUM    CHAINFNAME                78
+     C           UP:LO     XLATEFRSTNM:2  FRSTNM
+     C                     CAT  COMMA:0   CNAME
+     C                     CAT  FRSTNM:1  CNAME
+     C           ' '       CHEKRCNAME     FLDLEN            * SET ERR MESSAGE
+     C*
+     C                     EXCPTADDREC
+     C*
+     C           CUSTNO    ADD  1         CUSTNO            * UPDATE TIME LCV
+     C*
+     C                     ENDDO
+     C*
+     C                     SETON                         LR
+     C*
+     OCUSTOMEREADD             ADDREC
+     O                         CUSTNO     4B
+     O                         CUSTNM    70

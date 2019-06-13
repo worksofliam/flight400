@@ -1,0 +1,79 @@
+     A*%%TS  SD  19970811  192011  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(FLGHT400/CUSTNAME)
+     A                                      MSGALARM
+     A                                      PRINT
+     A                                      INDARA
+     A                                      HELP
+     A                                      CF03
+     A                                      CF09
+     A                                      CF12
+     A                                      ROLLUP
+     A*
+     A          R FRSWIN
+     A*%%TS  SD  19970811  192011  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(7 18 15 42)
+     A                                      WDWBORDER((*COLOR WHT) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A*
+     A          R SFL                       SFL
+     A*%%TS  SD  19970811  192011  TAFORD      REL-V3R2M0  5763-PW1
+     A            SELIO          1A  I  8  3CHKMSGID(FRS0028 FLGHT400/FRSMSGF)
+     A                                      VALUES(' ' '1')
+     A            OAGNT#    R    4   O  8  8REFFLD(ANAMER/AGNMBR FLGHT400/AGENT-
+     A                                      SL)
+     A                                      TEXT('Agent Number')
+     A            OAGNTN    R   25   O  8 16REFFLD(ANAMER/AGNAME FLGHT400/AGENT-
+     A                                      SL)
+     A                                      TEXT('Agent Name')
+     A*
+     A          R SFLCTL                    SFLCTL(SFL)
+     A*%%TS  SD  19970811  192011  TAFORD      REL-V3R2M0  5763-PW1
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A  42                                  SFLDSP
+     A                                      SFLDSPCTL
+     A  40                                  SFLCLR
+     A  99                                  SFLEND(*MORE)
+     A                                      SFLSIZ(0005)
+     A                                      SFLPAG(0004)
+     A  60                                  SFLMSG('Roll key not allowed' 60)
+     A                                      WINDOW(FRSWIN)
+     A            SFLPS          4S 0H      SFLRCDNBR
+     A                                  1 11'AGENT SELECTION WINDOW'
+     A                                      DSPATR(HI)
+     A                                  3  3'Position To:'
+     A            SEARCH        25A  I  3 16CHECK(LC)
+     A                                  5  3'1=Select'
+     A                                      COLOR(BLU)
+     A                                  7  3'1   Agent#   Agent Name'
+     A                                      DSPATR(HI)
+     A*
+     A          R FKEYS
+     A*%%TS  SD  19970811  192011  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(FRSWIN)
+     A                                      OVERLAY
+     A                                 14  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(13)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ(10)
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      OVERLAY
+     A                                      SFLSIZ(2)
+     A                                      SFLPAG(1)
+     A                                      WINDOW(FRSWIN)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ(10)
+     A          R DUMMY                     ASSUME
+     A                                      PUTOVR
+     A                                  1  2' '
+     A                                      DSPATR(ND)

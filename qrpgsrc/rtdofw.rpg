@@ -1,0 +1,41 @@
+     E                    TABDY#  1   7  1 0ATABDYD 16   * WEEK DAY DESCRIPTION
+     C           *ENTRY    PLIST
+     C                     PARM           G$MM    20
+     C                     PARM           G$DD    20
+     C                     PARM           G$YYYY  40
+     C                     PARM           DAYOWK 16
+     C*
+     C                     Z-ADD0         G$JD
+     C           G$MM      SUB  3         G$MMWK  20
+     C                     Z-ADDG$MMWK    GMWKSV  20
+     C           G$MMWK    IFLT 0                           LVL-01
+     C                     ADD  12        G$MMWK
+     C                     END                              END-01
+     C           GMWKSV    IFNE 0                           LVL-01
+     C           G$MMWK    MULT 30.6      G$JD      H
+     C                     END                              END-01
+     C                     ADD  G$DD      G$JD    50
+     C           G$YYYY    SUB  1900      G$YYWK  30
+     C           G$YYWK    IFNE 0                           LVL-01
+     C           GMWKSV    IFLT 0                           LVL-02
+     C                     SUB  1         G$YYWK
+     C                     END                              END-02
+     C                     END                              END-01
+     C           G$YYWK    MULT 365.25    G$JYD   70
+     C                     ADD  G$JYD     G$JD
+     C           G$JD      DIV  7         G$WK7   70
+     C                     MVR            G$DW    10
+     C*
+     C           G$DW      ADD  1         G$DW              * SRCH TABL 4 DSCR
+     C           G$DW      LOKUPTABDY#    TABDYD         15 * SRCH TABL 4 DSCR
+     C                     MOVELTABDYD    DAYOWK            * MOVE TO OUTPUT
+     C*
+     C                     RETRN
+** DAY OF THE WEEK
+1Wednesday
+2Thursday
+3Friday
+4Saturday
+5Sunday
+6Monday
+7Tuesday

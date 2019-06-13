@@ -1,0 +1,87 @@
+     A*%%TS  SD  19970807  150619  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      CA02(02)
+     A                                      CA03(03)
+     A                                      CF04(04)
+     A                                      CF05(05)
+     A                                      CF10(10)
+     A                                      CA12(12)
+     A          R SELCTR
+     A*%%TS  SD  19970807  131931  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      CHANGE(88 'A FIELD WAS CHANGED')
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A                                  1  2'Flight Reservation System - Order -
+     A                                      Selection Panel'
+     A                                      DSPATR(HI)
+     A                                  1 64'System:'
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      DSPATR(HI)
+     A                                  3  2'Type choices, press F10 to continu-
+     A                                      e'
+     A                                      COLOR(BLU)
+     A                                  6  2'Customer Name . . . .'
+     A                                      COLOR(BLU)
+     A            CUSNAM        25A  B  6 24
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A                                      TEXT('Customer Name')
+     A                                      CHECK(LC)
+     A                                  6 52'Name'
+     A                                      COLOR(BLU)
+     A                                  6 60'('
+     A                                      COLOR(BLU)
+     A                                  6 62'F4'
+     A                                      DSPATR(HI)
+     A                                  6 65'to Select )'
+     A                                      COLOR(BLU)
+     A                                  8  2'Date of Departure . . . . . . . . -
+     A                                      .'
+     A                                      COLOR(BLU)
+     A            DODYY          4D 0B  8 39TEXT('Date of Departure - Year')
+     A  52                                  DSPATR(RI)
+     A  52                                  DSPATR(PC)
+     A            DODMM          2D 0B  8 44
+     A  52                                  DSPATR(RI)
+     A            DODDD          2D 0B  8 47TEXT('Date of Departure - Day')
+     A  52                                  DSPATR(RI)
+     A                                  8 52'Date'
+     A                                      COLOR(BLU)
+     A                                  8 60'('
+     A                                      COLOR(BLU)
+     A                                  8 62'F5'
+     A                                      DSPATR(HI)
+     A                                  8 65'to Select )'
+     A                                      COLOR(BLU)
+     A                                 10  2'Order Number  . . . . . . . . . . -
+     A                                      .'
+     A                                      COLOR(BLU)
+     A            ORDER          9D 0B 10 40
+     A  53                                  DSPATR(RI)
+     A  53                                  DSPATR(PC)
+     A                                      CHECK(RZ)
+     A                                 10 52'Order Number'
+     A                                      COLOR(BLU)
+     A                                 23  2'F2=Refresh  F3=Exit  F10=Work with-
+     A                                       Selection'
+     A                                      COLOR(BLU)
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      SFLSIZ(4)
+     A                                      SFLPAG(1)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ

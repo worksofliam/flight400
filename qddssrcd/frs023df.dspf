@@ -1,0 +1,80 @@
+     A*%%TS  SD  19970813  114809  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      CA02(02)
+     A                                      CA03(03)
+     A                                      CF04(04)
+     A                                      CF10(10)
+     A                                      CF11(11)
+     A                                      CA12(12)
+     A          R SELCTR
+     A*%%TS  SD  19970813  114809  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      CHANGE(88 'A FIELD WAS CHANGED')
+     A  50                                  ALARM
+     A                                      OVERLAY
+     A                                  1  2'Flight Maintenance System - Agent -
+     A                                      Master Table'
+     A                                      DSPATR(HI)
+     A                                  1 64'System:'
+     A                                      COLOR(BLU)
+     A                                  1 72SYSNAME
+     A                                      DSPATR(HI)
+     A                                  3  2'Type choices, press F10 to continu-
+     A                                      e'
+     A                                      COLOR(BLU)
+     A                                  6  2'Agent Number  . . . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SAGEN#    R    4D  B  6 46REFFLD(ORDERS/AGENT_NO FLGHT400/AGE-
+     A                                      NTS)
+     A  51                                  DSPATR(RI)
+     A  51                                  DSPATR(PC)
+     A                                      CHECK(RZ)
+     A                                  6 54'Name'
+     A                                      COLOR(BLU)
+     A                                  8  2'Agent Name  . . . . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SAGENT    R   10   B  8 40REFFLD(ORDERS/AGENT_NAME FLGHT400/A-
+     A                                      GENTS)
+     A  52                                  DSPATR(RI)
+     A  52                                  DSPATR(PC)
+     A                                      TEXT('Agent Name')
+     A                                      CHECK(LC)
+     A                                  8 54'Name'
+     A                                      COLOR(BLU)
+     A                                  8 61'('
+     A                                      COLOR(BLU)
+     A                                  8 63'F4'
+     A                                      DSPATR(HI)
+     A                                  8 66'to Select )'
+     A                                      COLOR(BLU)
+     A                                 10  2'Password  . . . . . . . . . . .'
+     A                                      COLOR(BLU)
+     A            SPASSW    R   10   B 10 40REFFLD(ORDERS/AGENT00001 FLGHT400/A-
+     A                                      GENTS)
+     A  53                                  DSPATR(RI)
+     A  53                                  DSPATR(PC)
+     A                                      TEXT('Agents Password')
+     A                                      CHECK(LC)
+     A                                 10 54'Name'
+     A                                      COLOR(BLU)
+     A                                 23  2'F2=Refresh  F3=Exit  F10=Add/Updat-
+     A                                      e Selection  F11=Delete Selection'
+     A                                      COLOR(BLU)
+     A*
+     A          R MSGRCD                    SFL
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            PGMQ                      SFLPGMQ
+     A*
+     A          R MSGCTL                    SFLCTL(MSGRCD)
+     A                                      SFLSIZ(4)
+     A                                      SFLPAG(1)
+     A N80                                  SFLDSP
+     A N80                                  SFLDSPCTL
+     A N80                                  SFLINZ
+     A N80                                  SFLEND
+     A N80                                  SFLCLR
+     A            PGMQ                      SFLPGMQ

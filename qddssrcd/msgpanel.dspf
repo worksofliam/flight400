@@ -1,0 +1,68 @@
+     A*  90/04/14  18:42:40    QSECOFR     REL-R02M00  5728-PW1
+0000 A*0IGC 0DS4  2REL                      890502
+     A                                      DSPSIZ(24 80 *DS3                  -
+     A                                             27 132 *DS4)
+     A                                      CHGINPDFT
+     A                                      USRDSPMGT
+     A                                      INDARA
+     A          R MSGPANEL
+     A*  90/04/14  18:42:40    QSECOFR     REL-R02M00  5728-PW1
+     A                                      DSPMOD(*DS3)
+     A                                      PRINT(*PGM)
+     A                                      INVITE
+     A                                      SLNO(01)
+     A                                      CLRL(*NO)
+     A  91                                  PUTOVR
+     A                                      CLEAR
+     A            CURSOR         1X  I 12  9DSPATR(PR)
+     A                                      DSPATR(RI)
+     A                                      DSPATR(PC)
+     A  91                                  OVRATR
+     A                                 13  9'..................................-
+     A                                      ..............................'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 14  9':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 14 11'                                  -
+     A                                                                '
+     A                                 14 72':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 15  9':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A            MLINE1        60A  O 15 11DSPATR(HI)
+     A  91                                  OVRATR
+     A                                 15 72':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 16  9':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A            MLINE2        60A  O 16 11DSPATR(HI)
+     A  91                                  OVRATR
+     A                                 16 72':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 17  9':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A            MLINE3        60A  O 17 11DSPATR(HI)
+     A  91                                  OVRATR
+     A                                 17 72':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 18 11'                                  -
+     A                                                                '
+     A                                 18 72':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 19  9':.................................-
+     A                                      .............................:'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)
+     A                                 18  9':'
+     A  91                                  OVRATR
+     A                                      DSPATR(HI)

@@ -1,0 +1,300 @@
+     FFRS023DFCF  E                    WORKSTN      KINFDS WSDS
+     FAGENTSZ UF  F     141 09AI     1 DISK                      A
+     FAGENTSL IF  F     136 66AI     5 DISK
+     I*
+     IAGENTSL NS  01
+     I                                    B   1   40AGNT#L
+     I                                        5  70 AGNTNL
+     I                                       71 136 AGNTPL
+     I*
+     IAGENTSZ NS  02
+     I                                        1   90AGNT#Z
+     I                                       10  75 AGNTNZ
+     I                                       76 141 AGNTPZ
+     I*
+     I              X'31'                 C         @F01
+     I              X'32'                 C         @F02
+     I              X'33'                 C         @F03
+     I              X'34'                 C         @F04
+     I              X'39'                 C         @F09
+     I              X'3A'                 C         @F10
+     I              X'3B'                 C         @F11
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F3'                 C         @HELP
+     I              X'F6'                 C         @PRINT
+     I*
+     I              X'7D'                 C         APOST
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     I              '0'                   C         @OFF
+     I              '1'                   C         @ON
+     I*
+     I           SDS
+     I                                        1  10 @PGM                   _ERR_
+     I                                       11  150@STAT                  _ERR_
+     I                                       37  390@PARMS                 _ERR_
+     I                                       40  46 @MSGID                 _ERR_
+     I                                       91 169 @DATA                  _ERR_
+     I                                      244 253 @JOBNA                 _ERR_
+     I                                      254 263 @USRNA                 _ERR_
+     I                                      264 269 @JOBNO                 _ERR_
+     I                                      304 313 @SRCF                  _ERR_
+     I                                      314 323 @SRCL                  _ERR_
+     I                                      324 333 @SRCM                  _ERR_
+     I*
+     IAPIERR      DS
+     I I            256                   B   1   40ERRSIZ
+     I I            0                     B   5   80ERRLEN
+     I I                                      9  15 ERRMIC
+     I I                                     16  16 ERRNBR
+     I I                                     17 256 ERRDTA
+     I*
+     I            DS
+     I I            0                     B   1   40MSGCTR
+     I I            80                    B   5   80MSGLEN
+     I I            'FRSMSGF   FLGHT400  '    9  28 MSGF
+     I I            '*INFO     '             29  38 MSGTYP
+     I I            '    '                   39  42 MSGKEY
+     I*
+     I            DS
+     I I            0                     B   1   40RMVCTR
+     I I            '*         '              5  14 RMVMSQ
+     I I            '*ALL      '             15  24 RMVCLR
+     I I            '    '                   25  28 RMVKEY
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I*
+     I            DS
+     I                                        1   90NBRCHK
+     I*
+     I            DS
+     I                                        1  66 AGNKEY
+     I                                    B   1   20AGNLEN
+     I                                        3  66 AGNNAM
+     I*
+     I            DS
+     I                                        1  66 PWDKEY
+     I                                    B   1   20PWDLEN
+     I                                        3  66 PWDNAM
+     I*
+     C*                                                     * D=DELETE
+     C                     RESETSELCTR                      * REFRESH SCREEN -
+     C                     EXSR INZSR
+     C*
+     C           @EXIT     DOUEQ@TRUE
+     C*
+     C                     WRITEMSGCTL                      * WRITE MSGCTL
+     C                     EXFMTSELCTR                      * DISPLAY SCREEN
+     C*
+     C           KEY       CASEQ@F02      @F02SR            * F02 REFRESH
+     C           KEY       CASEQ@F03      @F03SR            * F03 EXIT
+     C           KEY       CASEQ@F04      @F04SR            * F03 EXIT
+     C           KEY       CASEQ@F09      @F09SR            * F03 EXIT
+     C           KEY       CASEQ@F12      @F12SR            * F12 CANCEL
+     C                     CAS            @ERRCK            * CK FOR ERRORS
+     C                     ENDCS
+     C*
+     C           KEY       IFEQ @F10                        * F10 PRESSED
+     C           *INLR     ANDNE*ON                         * F10 PRESSED
+     C           *IN50     ANDEQ*OFF                        * 50 OFF=NO ERRS
+     C                     EXSR @F10SR                      * CREATE RECRD
+     C                     ENDIF                            * END IF
+     C*
+     C           KEY       IFEQ @F11                        * F10 PRESSED
+     C           *INLR     ANDNE*ON                         * F10 PRESSED
+     C           *IN50     ANDEQ*OFF                        * 50 OFF=NO ERRS
+     C                     EXSR @F11SR                      * CREATE RECRD
+     C                     ENDIF                            * END IF
+     C*
+     C                     ENDDO                            * END DO
+     C*
+     C           END       TAG
+     C*
+     C                     MOVE *ON       *INLR             * LAST RECORD=ON
+     C*
+     C*
+     C*
+     C           INZSR     BEGSR                            * SET OUTPT SCREEN 1
+     C*
+     C                     SETOF                       4450 * ERROR IND. SC 1
+     C                     SETOF                     515253 * ERROR IND. SC 1
+     C*
+     C                     MOVE ' '       MSGID   7
+     C                     MOVE *BLANKS   MSGDTA 80
+     C                     MOVE @PGM      MSGQUE 10
+     C*
+     C                     MOVE @FALSE    @EXIT   1
+     C                     MOVE @PGM      PGMQ
+     C*
+     C           ENDINZ    ENDSR
+     C*
+     C*
+     C*
+     C           @ERRCK    BEGSR                            * CHK INPUT DATA
+     C*
+     C                     SETOF                       4450 * ERROR IND. SC 1
+     C                     SETOF                     515253 * ERROR IND. SC 1
+     C*
+     C                     EXSR @RMVMS
+     C*
+     C           SAGEN#    IFEQ *ZEROS                      * RUN INTERACTIVE
+     C                     SETON                       5051 * SET ERR INDICATOR
+     C                     MOVE 'FRS0048' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C                     Z-ADDSAGEN#    NBRCHK
+     C           NBRCHK    CHAINAGENTSZ              44
+     C           *IN44     IFEQ @OFF
+     C                     MOVE *BLANKS   AGNKEY            * SET ERR MESSAGE
+     C                     MOVELAGNTNZ    AGNKEY            * SET ERR MESSAGE
+     C                     MOVELAGNNAM    NAMECK 10         * SET ERR MESSAGE
+     C           SAGENT    CABEQNAMECK    BYPASS            * GET CMD LINE
+     C                     ENDIF
+     C*
+     C                     MOVE *BLANKS   AGNNAM            * SET ERR MESSAGE
+     C           ' '       CHEKRSAGENT    AGNLEN            * SET ERR MESSAGE
+     C                     MOVELSAGENT    AGNNAM            * SET ERR MESSAGE
+     C           AGNKEY    CHAINAGENTSL              44     * RUN INTERACTIVE
+     C           *IN44     IFEQ @FALSE                      * RUN INTERACTIVE
+     C                     SETON                       5052 * SET ERR INDICATOR
+     C                     MOVE 'FRS0053' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           BYPASS    TAG
+     C*
+     C           SPASSW    IFEQ *BLANKS                     * RUN INTERACTIVE
+     C                     SETON                       5053 * SET ERR INDICATOR
+     C                     MOVE 'FRS0054' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           ERREND    ENDSR
+     C*
+     C*
+     C           @RMVMS    BEGSR
+     C                     CALL 'QMHRMVPM'                  * PGM TO RMV PGM MSG
+     C                     PARM           RMVMSQ            * MESSAGE DATA
+     C                     PARM           RMVCTR            * MESSAGE DATA
+     C                     PARM           RMVKEY            * MESSAGE DATA
+     C                     PARM           RMVCLR
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @SNDMS    BEGSR
+     C                     CALL 'QMHSNDPM'                  * PGM TO SND PGM MSG
+     C                     PARM           MSGID             * MESSAGE ID
+     C                     PARM           MSGF              * MESSAGE FILE
+     C                     PARM           MSGDTA            * MESSAGE DATA
+     C                     PARM           MSGLEN            * MESSAGE DATA
+     C                     PARM           MSGTYP            * MESSAGE DATA
+     C                     PARM           MSGQUE            * MESSAGE DATA
+     C                     PARM           MSGCTR            * MESSAGE DATA
+     C                     PARM           MSGKEY            * MESSAGE DATA
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @F02SR    BEGSR                            * F2 SUBROUTINE
+     C                     SETOF                         50 * ERROR IND. SC 1
+     C                     SETOF                     515253 * ERROR IND. SC 1
+     C                     RESETSELCTR                      * REFRESH SCREEN -
+     C                     EXSR @RMVMS
+     C                     ENDSR
+     C*
+     C*
+     C           @F03SR    BEGSR                            * F3 SUBROUTINE
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     ENDSR
+     C*
+     C*
+     C           @F04SR    BEGSR                            * F3 SUBROUTINE
+     C                     CALL 'FRS401'                    * SELCT START INTRVL
+     C                     PARM           SAGENT            * RETURN START TIME
+     C*
+     C                     MOVE *BLANKS   AGNNAM            * SET ERR MESSAGE
+     C           ' '       CHEKRSAGENT    AGNLEN            * SET ERR MESSAGE
+     C                     MOVELSAGENT    AGNNAM            * SET ERR MESSAGE
+     C           AGNKEY    CHAINAGENTSL              44     * RUN INTERACTIVE
+     C           *IN44     IFEQ @FALSE                      * RUN INTERACTIVE
+     C                     Z-ADDAGNT#L    SAGEN#            * SET ERR MESSAGE
+     C                     MOVELAGNTPL    PWDKEY            * SET ERR MESSAGE
+     C                     MOVELPWDNAM    SPASSW            * SET ERR MESSAGE
+     C                     END
+     C                     ENDSR
+     C*
+     C*
+     C           @F09SR    BEGSR                            * F9 SUBROUTINE
+     C                     CALL 'QUSCMDLN'                  * GET CMD LINE
+     C                     ENDSR
+     C*
+     C*
+     C           @F10SR    BEGSR                            * F10 SUBROUTINE
+     C*
+     C                     Z-ADDSAGEN#    NBRCHK
+     C           NBRCHK    CHAINAGENTSZ              44
+     C           *IN44     IFEQ @ON
+     C                     Z-ADDSAGEN#    AGNT#Z            * GET CMD LINE
+     C                     MOVE *BLANKS   AGNNAM            * SET ERR MESSAGE
+     C           ' '       CHEKRSAGENT    AGNLEN            * SET ERR MESSAGE
+     C                     MOVELSAGENT    AGNNAM            * SET ERR MESSAGE
+     C                     MOVE AGNKEY    AGNTNZ            * GET CMD LINE
+     C                     MOVE *BLANKS   PWDNAM            * SET ERR MESSAGE
+     C           ' '       CHEKRSPASSW    PWDLEN            * SET ERR MESSAGE
+     C                     MOVELSPASSW    PWDNAM            * SET ERR MESSAGE
+     C                     MOVE PWDKEY    AGNTPZ            * GET CMD LINE
+     C                     EXCPTADDAGN
+     C                     ELSE
+     C                     MOVE *BLANKS   AGNNAM            * SET ERR MESSAGE
+     C           ' '       CHEKRSAGENT    AGNLEN            * SET ERR MESSAGE
+     C                     MOVELSAGENT    AGNNAM            * SET ERR MESSAGE
+     C                     MOVE AGNKEY    AGNTNZ            * GET CMD LINE
+     C                     MOVE *BLANKS   PWDNAM            * SET ERR MESSAGE
+     C           ' '       CHEKRSPASSW    PWDLEN            * SET ERR MESSAGE
+     C                     MOVELSPASSW    PWDNAM            * SET ERR MESSAGE
+     C                     MOVE PWDKEY    AGNTPZ            * GET CMD LINE
+     C                     EXCPTUPDAGN
+     C                     ENDIF
+     C*
+     C                     EXSR @F02SR
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @F11SR    BEGSR                            * F10 SUBROUTINE
+     C*
+     C                     Z-ADDSAGEN#    NBRCHK
+     C           NBRCHK    CHAINAGENTSZ              44
+     C           *IN44     IFEQ @OFF
+     C                     EXCPTDELAGN
+     C                     ENDIF
+     C*
+     C                     EXSR @F02SR
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @F12SR    BEGSR
+     C                     MOVE @TRUE     @EXIT
+     C                     ENDSR
+     C*
+     OAGENTSZ EADD             ADDAGN
+     O                         AGNT#Z     9
+     O                         AGNTNZ    75
+     O                         AGNTPZ   141
+     O*
+     OAGENTSZ E                UPDAGN
+     O                         AGNTNZ    75
+     O                         AGNTPZ   141
+     O*
+     OAGENTSZ EDEL             DELAGN
+     O*

@@ -1,0 +1,12 @@
+                                            UNIQUE
+                R FRCTYR
+                  FRCNAM        16A         TEXT('FROM CITY NAME')
+                                            COLHDG('CITY NAME')
+                  FRCINT         3A         TEXT('FROM CITY INITIALS')
+                                            COLHDG('  CITY' 'INITIALS')
+                  FRCALN         3A         TEXT('FROM CITY AIRLINE')
+                                            COLHDG(' CITY' 'AIRLINE')
+                  FRCNBR         3S 0       TEXT('FROM CITY NUMBER')
+                                            COLHDG(' FROM' ' CITY' 'NUMBER')
+                                            EDTCDE(Z)
+                K FRCNAM

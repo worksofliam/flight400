@@ -1,0 +1,4 @@
+     A          R CUSTR                     PFILE(CUSTOMERS)
+     A            CUSTNO                    RENAME(CUSTO00001)
+     A            CUSTNM                    RENAME(CUSTO00002)
+     A          K CUSTNM

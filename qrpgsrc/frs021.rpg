@@ -1,0 +1,622 @@
+     FFRS021DFCF  E                    WORKSTN      KINFDS WSDS
+     FAIRLINE IF  E           K        DISK
+     FAIRLINELIF  E           K        DISK
+     FFLIGHTSZUF  F     233 09AI     1 DISK                      A
+     FFRCITY  IF  E           K        DISK
+     FTOCITY  IF  E           K        DISK
+     E*
+     E                    TABDAY  1   7  9                             CRIPTION
+     I*
+     IFLIGHTSZNS  02
+     I                                        1   90FFLGHT
+     I                                       10  27 FDPCIN
+     I                                       28  45 FDPCNM
+     I                                       46  63 FDYOWK
+     I                                       64  81 FARCIN
+     I                                       82  99 FARCNM
+     I                                      100 133 FDPTTM
+     I                                      134 167 FARVTM
+     I                                      168 201 FAIRLN
+     I                                    B 202 2050FSEATS
+     I                                      206 229 FTCKTP
+     I                                    B 230 2330FMILES
+     I*
+     I              X'31'                 C         @F01
+     I              X'32'                 C         @F02
+     I              X'33'                 C         @F03
+     I              X'34'                 C         @F04
+     I              X'36'                 C         @F06
+     I              X'37'                 C         @F07
+     I              X'38'                 C         @F08
+     I              X'39'                 C         @F09
+     I              X'3A'                 C         @F10
+     I              X'3B'                 C         @F11
+     I              X'3C'                 C         @F12
+     I              X'F1'                 C         @ENTER
+     I              X'F3'                 C         @HELP
+     I              X'F6'                 C         @PRINT
+     I*
+     I              X'7D'                 C         APOST
+     I*
+     I              '0'                   C         @FALSE
+     I              '1'                   C         @TRUE
+     I*
+     I              '0'                   C         @OFF
+     I              '1'                   C         @ON
+     I*
+     I           SDS
+     I                                        1  10 @PGM                   _ERR_
+     I                                       11  150@STAT                  _ERR_
+     I                                       37  390@PARMS                 _ERR_
+     I                                       40  46 @MSGID                 _ERR_
+     I                                       91 169 @DATA                  _ERR_
+     I                                      244 253 @JOBNA                 _ERR_
+     I                                      254 263 @USRNA                 _ERR_
+     I                                      264 269 @JOBNO                 _ERR_
+     I                                      304 313 @SRCF                  _ERR_
+     I                                      314 323 @SRCL                  _ERR_
+     I                                      324 333 @SRCM                  _ERR_
+     I*
+     IAPIERR      DS
+     I I            256                   B   1   40ERRSIZ
+     I I            0                     B   5   80ERRLEN
+     I I                                      9  15 ERRMIC
+     I I                                     16  16 ERRNBR
+     I I                                     17 256 ERRDTA
+     I*
+     I            DS
+     I I            0                     B   1   40MSGCTR
+     I I            80                    B   5   80MSGLEN
+     I I            'FRSMSGF   FLGHT400  '    9  28 MSGF
+     I I            '*INFO     '             29  38 MSGTYP
+     I I            '    '                   39  42 MSGKEY
+     I*
+     I            DS
+     I I            0                     B   1   40RMVCTR
+     I I            '*         '              5  14 RMVMSQ
+     I I            '*ALL      '             15  24 RMVCLR
+     I I            '    '                   25  28 RMVKEY
+     I*
+     IWSDS        DS
+     I                                      369 369 KEY
+     I*
+     I            DS
+     I                                        1  18 ARRINT
+     I I            3                     B   1   20ARRINL
+     I                                        3   5 ARRIN3
+     I                                        3  18 ARRINN
+     I*
+     I            DS
+     I                                        1  18 ARRCTY
+     I                                    B   1   20ARRCTL
+     I                                        3  18 ARRCTN
+     I*
+     I            DS
+     I                                        1  18 DEPINT
+     I I            3                     B   1   20DEPINL
+     I                                        3   5 DEPIN3
+     I                                        3  18 DEPINN
+     I*
+     I            DS
+     I                                        1  18 DEPCTY
+     I                                    B   1   20DEPCTL
+     I                                        3  18 DEPCTN
+     I*
+     I            DS
+     I                                        1  34 AIRLNK
+     I I            3                     B   1   20AIRLNG
+     I                                        3   5 AIRLN3
+     I                                        3  34 AIRLNN
+     I*
+     I            DS
+     I                                        1  18 DAYOWK
+     I                                    B   1   20DAYOWL
+     I                                        3  18 DAYOWN
+     I*
+     I            DS
+     I                                        1  34 ARRTIM
+     I I            8                     B   1   20ARRTIL
+     I                                        3   4 ARRHH
+     I I            ':'                       5   5 ARRCOL
+     I                                        6   7 ARRMM
+     I I            ' '                       8   8 ARRBLK
+     I                                        9  10 ARRAP
+     I                                       11  34 ARRTIN
+     I*
+     I            DS
+     I                                        1  34 DEPTIM
+     I I            8                     B   1   20DEPTIL
+     I                                        3   4 DEPHH
+     I I            ':'                       5   5 DEPCOL
+     I                                        6   7 DEPMM
+     I I            ' '                       8   8 DEPBLK
+     I                                        9  10 DEPAP
+     I                                       11  34 DEPTIN
+     I*
+     I            DS
+     I                                        1  24 TICKTP
+     I                                    B   1   20TICKTL
+     I                                        3  24 TICKTN
+     I*
+     C*                                                     * D=DELETE
+     C                     RESETSELCTR                      * REFRESH SCREEN -
+     C                     EXSR INZSR
+     C*
+     C           @EXIT     DOUEQ@TRUE
+     C*
+     C                     WRITEMSGCTL                      * WRITE MSGCTL
+     C                     EXFMTSELCTR                      * DISPLAY SCREEN
+     C*
+     C           KEY       CASEQ@F02      @F02SR            * F02 REFRESH
+     C           KEY       CASEQ@F03      @F03SR            * F03 EXIT
+     C           KEY       CASEQ@F04      @F04SR            * F03 EXIT
+     C           KEY       CASEQ@F06      @F06SR            * F03 EXIT
+     C           KEY       CASEQ@F07      @F07SR            * F03 EXIT
+     C           KEY       CASEQ@F08      @F08SR            * F03 EXIT
+     C           KEY       CASEQ@F09      @F09SR            * F03 EXIT
+     C           KEY       CASEQ@F12      @F12SR            * F12 CANCEL
+     C                     CAS            @ERRCK            * CK FOR ERRORS
+     C                     ENDCS
+     C*
+     C           KEY       IFEQ @F10                        * F10 PRESSED
+     C           *INLR     ANDNE*ON                         * F10 PRESSED
+     C           *IN50     ANDEQ*OFF                        * 50 OFF=NO ERRS
+     C                     EXSR @F10SR                      * CREATE RECRD
+     C                     ENDIF                            * END IF
+     C*
+     C           KEY       IFEQ @F11                        * F10 PRESSED
+     C           *INLR     ANDNE*ON                         * F10 PRESSED
+     C           *IN50     ANDEQ*OFF                        * 50 OFF=NO ERRS
+     C                     EXSR @F11SR                      * CREATE RECRD
+     C                     ENDIF                            * END IF
+     C*
+     C                     ENDDO                            * END DO
+     C*
+     C           END       TAG
+     C*
+     C                     MOVE *ON       *INLR             * LAST RECORD=ON
+     C*
+     C*
+     C*
+     C           INZSR     BEGSR                            * SET OUTPT SCREEN 1
+     C*
+     C                     SETOF                     445051 * ERROR IND. SC 1
+     C                     SETOF                     525354 * ERROR IND. SC 1
+     C                     SETOF                     555657 * ERROR IND. SC 1
+     C                     SETOF                     585960 * ERROR IND. SC 1
+     C*
+     C                     MOVE ' '       MSGID   7
+     C                     MOVE *BLANKS   MSGDTA 80
+     C                     MOVE @PGM      MSGQUE 10
+     C*
+     C                     MOVE @FALSE    @EXIT   1
+     C                     MOVE @PGM      PGMQ
+     C*
+     C                     MOVE '00'      SDPTHH
+     C                     MOVE '00'      SDPTMM
+     C                     MOVE 'PM'      SDPTAP
+     C*
+     C                     MOVE '00'      SARRHH
+     C                     MOVE '00'      SARRMM
+     C                     MOVE 'PM'      SARRAP
+     C*
+     C           ENDINZ    ENDSR
+     C*
+     C*
+     C*
+     C           @ERRCK    BEGSR                            * CHK INPUT DATA
+     C*
+     C                     SETOF                     445051 * ERROR IND. SC 1
+     C                     SETOF                     525354 * ERROR IND. SC 1
+     C                     SETOF                     555657 * ERROR IND. SC 1
+     C                     SETOF                     585960 * ERROR IND. SC 1
+     C*
+     C                     EXSR @RMVMS
+     C*
+     C           SFLGHT    IFEQ *ZEROS                      * RUN INTERACTIVE
+     C                     SETON                       5051 * SET ERR INDICATOR
+     C                     MOVE 'FRS0021' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SDYOWK    IFEQ *BLANKS                     * RUN INTERACTIVE
+     C                     SETON                       5052 * SET ERR INDICATOR
+     C                     MOVE 'FRS0022' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SDYOWK    LOKUPTABDAY                   44 * SRCH TABL 4 DSCR
+     C           *IN44     IFEQ @OFF
+     C                     SETON                       5052 * SET ERR INDICATOR
+     C                     MOVE 'FRS0023' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     ENDIF
+     C*
+     C           SFRCTY    IFEQ *BLANKS                     * RUN INTERACTIVE
+     C                     SETON                       5053 * SET ERR INDICATOR
+     C                     MOVE 'FRS0061' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SFRCTY    CHAINFRCTYR               44
+     C           *IN44     IFEQ @ON
+     C                     SETON                       5053 * SET ERR INDICATOR
+     C                     MOVE 'FRS0062' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     ENDIF
+     C                     MOVELFRCINT    SFRINT
+     C*
+     C           STOCTY    IFEQ *BLANKS                     * RUN INTERACTIVE
+     C                     SETON                       5054 * SET ERR INDICATOR
+     C                     MOVE 'FRS0071' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           STOCTY    CHAINTOCTYR               44
+     C           *IN44     IFEQ @ON
+     C                     SETON                       5054 * SET ERR INDICATOR
+     C                     MOVE 'FRS0072' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     ENDIF
+     C                     MOVELTOCINT    STOINT
+     C*
+     C           SDPTHH    IFEQ '00'                        * RUN INTERACTIVE
+     C           SDPTMM    ANDEQ'00'                        * RUN INTERACTIVE
+     C                     SETON                       5055 * SET ERR INDICATOR
+     C                     MOVE 'FRS0024' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SDPTHH    IFGT '12'                        * RUN INTERACTIVE
+     C           SDPTMM    ORGT '59'                        * RUN INTERACTIVE
+     C                     SETON                       5055 * SET ERR INDICATOR
+     C                     MOVE 'FRS0024' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SDPTAP    IFNE 'AM'                        * RUN INTERACTIVE
+     C           SDPTAP    ANDNE'PM'                        * RUN INTERACTIVE
+     C                     SETON                       5055 * SET ERR INDICATOR
+     C                     MOVE 'FRS0024' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SARRHH    IFEQ '00'                        * RUN INTERACTIVE
+     C           SARRMM    ANDEQ'00'                        * RUN INTERACTIVE
+     C                     SETON                       5056 * SET ERR INDICATOR
+     C                     MOVE 'FRS0024' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SARRHH    IFGT '12'                        * RUN INTERACTIVE
+     C           SARRMM    ORGT '59'                        * RUN INTERACTIVE
+     C                     SETON                       5056 * SET ERR INDICATOR
+     C                     MOVE 'FRS0024' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SARRAP    IFNE 'AM'                        * RUN INTERACTIVE
+     C           SARRAP    ANDNE'PM'                        * RUN INTERACTIVE
+     C                     SETON                       5056 * SET ERR INDICATOR
+     C                     MOVE 'FRS0024' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SMILES    IFEQ *ZEROS                      * RUN INTERACTIVE
+     C                     SETON                       5057 * SET ERR INDICATOR
+     C                     MOVE 'FRS0025' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SAIRLN    IFEQ *BLANKS                     * RUN INTERACTIVE
+     C                     SETON                       5058 * SET ERR INDICATOR
+     C                     MOVE 'FRS0041' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SAIRLN    CHAINAIRLINE              44     * RUN INTERACTIVE
+     C           *IN44     IFEQ @TRUE                                  ACTIVE
+     C                     SETON                       5058 * SET ERR INDICATOR
+     C                     MOVE 'FRS0042' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SSEATS    IFEQ *ZEROS                      * RUN INTERACTIVE
+     C                     SETON                       5059 * SET ERR INDICATOR
+     C                     MOVE 'FRS0083' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           SPRICE    IFEQ *BLANKS                     * RUN INTERACTIVE
+     C                     SETON                       5060 * SET ERR INDICATOR
+     C                     MOVE 'FRS0084' MSGID             * SET ERR MESSAGE
+     C                     EXSR @SNDMS                      * SND ERR MESSAGE
+     C                     GOTO ERREND
+     C                     END
+     C*
+     C           ERREND    ENDSR
+     C*
+     C*
+     C           @RMVMS    BEGSR
+     C                     CALL 'QMHRMVPM'                  * PGM TO RMV PGM MSG
+     C                     PARM           RMVMSQ            * MESSAGE DATA
+     C                     PARM           RMVCTR            * MESSAGE DATA
+     C                     PARM           RMVKEY            * MESSAGE DATA
+     C                     PARM           RMVCLR
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @SNDMS    BEGSR
+     C                     CALL 'QMHSNDPM'                  * PGM TO SND PGM MSG
+     C                     PARM           MSGID             * MESSAGE ID
+     C                     PARM           MSGF              * MESSAGE FILE
+     C                     PARM           MSGDTA            * MESSAGE DATA
+     C                     PARM           MSGLEN            * MESSAGE DATA
+     C                     PARM           MSGTYP            * MESSAGE DATA
+     C                     PARM           MSGQUE            * MESSAGE DATA
+     C                     PARM           MSGCTR            * MESSAGE DATA
+     C                     PARM           MSGKEY            * MESSAGE DATA
+     C                     PARM           APIERR
+     C                     ENDSR
+     C*
+     C*
+     C           @F02SR    BEGSR                            * F2 SUBROUTINE
+     C                     SETOF                     445051 * ERROR IND. SC 1
+     C                     SETOF                     525354 * ERROR IND. SC 1
+     C                     SETOF                     555657 * ERROR IND. SC 1
+     C                     SETOF                     585960 * ERROR IND. SC 1
+     C                     RESETSELCTR                      * REFRESH SCREEN -
+     C                     EXSR @RMVMS
+     C                     MOVE '00'      SDPTHH
+     C                     MOVE '00'      SDPTMM
+     C                     MOVE 'PM'      SDPTAP
+     C                     MOVE '00'      SARRHH
+     C                     MOVE '00'      SARRMM
+     C                     MOVE 'PM'      SARRAP
+     C                     ENDSR
+     C*
+     C*
+     C           @F03SR    BEGSR                            * F3 SUBROUTINE
+     C                     MOVE @TRUE     @EXIT             * SET EXIT FLAG ON
+     C                     ENDSR
+     C*
+     C*
+     C           @F04SR    BEGSR                            * F3 SUBROUTINE
+     C                     CALL 'FRS413'                    * SELCT START INTRVL
+     C                     PARM           SFLGHT            * RETURN START TIME
+     C                     PARM           SDYOWK            * RETURN START TIME
+     C                     PARM           SFRCTY            * RETURN START TIME
+     C                     PARM           STOCTY            * RETURN START TIME
+     C                     PARM           SDPTHH            * RETURN START TIME
+     C                     PARM           SDPTMM            * RETURN START TIME
+     C                     PARM           SDPTAP            * RETURN START TIME
+     C                     PARM           SARRHH            * RETURN START TIME
+     C                     PARM           SARRMM            * RETURN START TIME
+     C                     PARM           SARRAP            * RETURN START TIME
+     C                     PARM           SMILES            * RETURN START TIME
+     C                     PARM           SAIRIN            * RETURN START TIME
+     C                     PARM           SSEATS            * RETURN START TIME
+     C                     PARM           SPRICE            * RETURN START TIME
+     C*
+     C           SAIRIN    CHAINAIRLINEL             44
+     C           *IN44     IFEQ @FALSE
+     C                     MOVELAIRLNM    SAIRLN
+     C                     ENDIF
+     C*
+     C           SFRCTY    CHAINFRCITY               44
+     C           *IN44     IFEQ @FALSE
+     C                     MOVELFRCINT    SFRINT
+     C                     ENDIF
+     C*
+     C           STOCTY    CHAINFRCITY               44
+     C           *IN44     IFEQ @FALSE
+     C                     MOVELTOCINT    STOINT
+     C                     ENDIF
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @F06SR    BEGSR                            * F3 SUBROUTINE
+     C                     CALL 'FRS402'                    * SELCT START INTRVL
+     C                     PARM           SFRCTY            * RETURN START TIME
+     C                     PARM           SFRINT            * RETURN START TIME
+     C                     PARM           SAIRIN            * RETURN START TIME
+     C*
+     C           SAIRIN    CHAINAIRLINEL             44
+     C           *IN44     IFEQ @FALSE
+     C                     MOVELAIRLNM    SAIRLN
+     C                     ENDIF
+     C                     ENDSR
+     C*
+     C*
+     C           @F07SR    BEGSR                            * F3 SUBROUTINE
+     C                     CALL 'FRS403'                    * SELCT START INTRVL
+     C                     PARM           STOCTY            * RETURN START TIME
+     C                     PARM           STOINT            * RETURN START TIME
+     C                     ENDSR
+     C*
+     C*
+     C           @F08SR    BEGSR                            * F3 SUBROUTINE
+     C                     CALL 'FRS412'                    * SELCT START INTRVL
+     C                     PARM           SAIRLN            * RETURN START TIME
+     C                     PARM           SAIRIN            * RETURN START TIME
+     C                     ENDSR
+     C*
+     C*
+     C           @F09SR    BEGSR                            * F9 SUBROUTINE
+     C                     CALL 'QUSCMDLN'                  * GET CMD LINE
+     C                     ENDSR
+     C*
+     C*
+     C           @F10SR    BEGSR                            * F10 SUBROUTINE
+     C*
+     C           SFLGHT    CHAINFLIGHTSZ             44
+     C*
+     C           *IN44     IFEQ @ON
+     C*
+     C                     Z-ADDSFLGHT    FFLGHT            * GET CMD LINE
+     C                     MOVE *BLANKS   DEPINN            * GET CMD LINE
+     C                     MOVELSFRINT    DEPIN3            * GET CMD LINE
+     C                     MOVELDEPINT    FDPCIN            * GET CMD LINE
+     C                     MOVE *BLANKS   DEPCTN            * GET CMD LINE
+     C           ' '       CHEKRSFRCTY    DEPCTL            * SET ERR MESSAGE
+     C                     MOVELSFRCTY    DEPCTN            * GET CMD LINE
+     C                     MOVELDEPCTY    FDPCNM            * GET CMD LINE
+     C                     MOVE *BLANKS   ARRINN            * GET CMD LINE
+     C                     MOVELSTOINT    ARRIN3            * GET CMD LINE
+     C                     MOVELARRINT    FARCIN            * GET CMD LINE
+     C                     MOVE *BLANKS   ARRCTN            * GET CMD LINE
+     C           ' '       CHEKRSTOCTY    ARRCTL            * SET ERR MESSAGE
+     C                     MOVELSTOCTY    ARRCTN            * GET CMD LINE
+     C                     MOVELARRCTY    FARCNM            * GET CMD LINE
+     C                     MOVE *BLANKS   DAYOWN            * GET CMD LINE
+     C           ' '       CHEKRSDYOWK    DAYOWL            * SET ERR MESSAGE
+     C                     MOVELSDYOWK    DAYOWN            * GET CMD LINE
+     C                     MOVELDAYOWK    FDYOWK            * GET CMD LINE
+     C                     MOVE *BLANKS   DEPTIN            * GET CMD LINE
+     C                     MOVELSDPTHH    DEPHH             * GET CMD LINE
+     C                     MOVELSDPTMM    DEPMM             * GET CMD LINE
+     C                     MOVELSDPTAP    DEPAP             * GET CMD LINE
+     C                     MOVELDEPTIM    FDPTTM            * GET CMD LINE
+     C                     MOVE *BLANKS   ARRTIN            * GET CMD LINE
+     C                     MOVELSARRHH    ARRHH             * GET CMD LINE
+     C                     MOVELSARRMM    ARRMM             * GET CMD LINE
+     C                     MOVELSARRAP    ARRAP             * GET CMD LINE
+     C                     MOVELARRTIM    FARVTM            * GET CMD LINE
+     C                     MOVE *BLANKS   AIRLNN            * GET CMD LINE
+     C           SAIRLN    CHAINAIRLINE              44
+     C           *IN44     IFEQ @FALSE
+     C                     MOVELAIRLIN    AIRLN3
+     C                     ENDIF
+     C                     MOVELAIRLNK    FAIRLN            * GET CMD LINE
+     C                     Z-ADDSSEATS    FSEATS            * GET CMD LINE
+     C                     MOVE *BLANKS   TICKTN            * GET CMD LINE
+     C           ' '       CHEKRSPRICE    TICKTL            * SET ERR MESSAGE
+     C                     MOVELSPRICE    TICKTN            * SET ERR MESSAGE
+     C                     MOVELTICKTP    FTCKTP            * GET CMD LINE
+     C                     Z-ADDSMILES    FMILES            * GET CMD LINE
+     C                     EXCPTADDFLT
+     C*
+     C                     ELSE
+     C*
+     C                     MOVE *BLANKS   DEPINN            * GET CMD LINE
+     C                     MOVELSFRINT    DEPIN3            * GET CMD LINE
+     C                     MOVELDEPINT    FDPCIN            * GET CMD LINE
+     C                     MOVE *BLANKS   DEPCTN            * GET CMD LINE
+     C           ' '       CHEKRSFRCTY    DEPCTL            * SET ERR MESSAGE
+     C                     MOVELSFRCTY    DEPCTN            * GET CMD LINE
+     C                     MOVELDEPCTY    FDPCNM            * GET CMD LINE
+     C                     MOVE *BLANKS   ARRINN            * GET CMD LINE
+     C                     MOVELSTOINT    ARRIN3            * GET CMD LINE
+     C                     MOVELARRINT    FARCIN            * GET CMD LINE
+     C                     MOVE *BLANKS   ARRCTN            * GET CMD LINE
+     C           ' '       CHEKRSTOCTY    ARRCTL            * SET ERR MESSAGE
+     C                     MOVELSTOCTY    ARRCTN            * GET CMD LINE
+     C                     MOVELARRCTY    FARCNM            * GET CMD LINE
+     C                     MOVE *BLANKS   DAYOWN            * GET CMD LINE
+     C           ' '       CHEKRSDYOWK    DAYOWL            * SET ERR MESSAGE
+     C                     MOVELSDYOWK    DAYOWN            * GET CMD LINE
+     C                     MOVELDAYOWK    FDYOWK            * GET CMD LINE
+     C                     MOVE *BLANKS   DEPTIN            * GET CMD LINE
+     C                     MOVELSDPTHH    DEPHH             * GET CMD LINE
+     C                     MOVELSDPTMM    DEPMM             * GET CMD LINE
+     C                     MOVELSDPTAP    DEPAP             * GET CMD LINE
+     C                     MOVELDEPTIM    FDPTTM            * GET CMD LINE
+     C                     MOVE *BLANKS   ARRTIN            * GET CMD LINE
+     C                     MOVELSARRHH    ARRHH             * GET CMD LINE
+     C                     MOVELSARRMM    ARRMM             * GET CMD LINE
+     C                     MOVELSARRAP    ARRAP             * GET CMD LINE
+     C                     MOVELARRTIM    FARVTM            * GET CMD LINE
+     C                     MOVE *BLANKS   AIRLNN            * GET CMD LINE
+     C           SAIRLN    CHAINAIRLINE              44
+     C           *IN44     IFEQ @FALSE
+     C                     MOVELAIRLIN    AIRLN3
+     C                     ENDIF
+     C                     MOVELAIRLNK    FAIRLN            * GET CMD LINE
+     C                     Z-ADDSSEATS    FSEATS            * GET CMD LINE
+     C                     MOVE *BLANKS   TICKTN            * GET CMD LINE
+     C           ' '       CHEKRSPRICE    TICKTL            * SET ERR MESSAGE
+     C                     MOVELSPRICE    TICKTN            * SET ERR MESSAGE
+     C                     MOVELTICKTP    FTCKTP            * GET CMD LINE
+     C                     Z-ADDSMILES    FMILES            * GET CMD LINE
+     C                     EXCPTUPDFLT
+     C*
+     C                     ENDIF
+     C*
+     C                     EXSR @F02SR
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @F11SR    BEGSR                            * F10 SUBROUTINE
+     C*
+     C           SFLGHT    CHAINFLIGHTSZ             44
+     C           *IN44     IFEQ @OFF
+     C                     EXCPTDELFLT
+     C                     ENDIF
+     C*
+     C                     EXSR @F02SR
+     C*
+     C                     ENDSR
+     C*
+     C*
+     C           @F12SR    BEGSR
+     C                     MOVE @TRUE     @EXIT
+     C                     ENDSR
+     C*
+     C*
+     OFLIGHTSZEADD             ADDFLT
+     O                         FFLGHT     9
+     O                         FDPCIN    27
+     O                         FDPCNM    45
+     O                         FDYOWK    63
+     O                         FARCIN    81
+     O                         FARCNM    99
+     O                         FDPTTM   133
+     O                         FARVTM   167
+     O                         FAIRLN   201
+     O                         FSEATS   205B
+     O                         FTCKTP   229
+     O                         FMILES   233B
+     O*
+     OFLIGHTSZE                UPDFLT
+     O                         FDPCIN    27
+     O                         FDPCNM    45
+     O                         FDYOWK    63
+     O                         FARCIN    81
+     O                         FARCNM    99
+     O                         FDPTTM   133
+     O                         FARVTM   167
+     O                         FAIRLN   201
+     O                         FSEATS   205B
+     O                         FTCKTP   229
+     O                         FMILES   233B
+     O*
+     OFLIGHTSZEDEL             DELFLT
+     O*
+** DAY OF THE WEEK
+Sunday
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday

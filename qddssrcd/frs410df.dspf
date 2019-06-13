@@ -1,0 +1,38 @@
+     A*%%TS  SD  19970808  151355  TAFORD      REL-V3R2M0  5763-PW1
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      PRINT
+     A                                      MSGALARM
+     A                                      INDARA
+     A                                      HELP
+     A                                      CF03
+     A                                      CF12
+     A                                      ROLLUP
+     A          R FRSWIN
+     A*%%TS  SD  19970808  151139  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(4 2 15 29)
+     A                                      WDWBORDER((*COLOR WHT) (*DSPATR RI)-
+     A                                       (*CHAR '        '))
+     A          R FKEYS
+     A*%%TS  SD  19970808  151355  TAFORD      REL-V3R2M0  5763-PW1
+     A                                      WINDOW(FRSWIN)
+     A                                      OVERLAY
+     A                                  1  2'TICKET CONFIRMATION WINDOW'
+     A                                      DSPATR(HI)
+     A                                  4  3'Ticket Number'
+     A                                      COLOR(BLU)
+     A            ORDER          9Y 0O  4 17DSPATR(HI)
+     A                                  5  3'has been removed from the'
+     A                                      COLOR(BLU)
+     A                                  6  3'Orders file. To remove'
+     A                                      COLOR(BLU)
+     A                                  7  3'additional orders press'
+     A                                      COLOR(BLU)
+     A                                  8  3'ENTER or F3.'
+     A                                      COLOR(BLU)
+     A                                 14  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A          R DUMMY                     ASSUME
+     A                                      PUTOVR
+     A                                  1  2' '
+     A                                      DSPATR(ND)

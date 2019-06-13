@@ -1,0 +1,11 @@
+                                            UNIQUE
+                R CUSTOMERS
+                  CUSTO00001     9B 0       ALIAS(CUSTOMER_NO)
+                                            COLHDG('CUSTOMER_NO')
+                                            ALWNULL
+                  CUSTO00002    64A         ALIAS(CUSTOMER_NAME)
+                                            COLHDG('CUSTOMER_NAME')
+                                            ALWNULL
+                                            CCSID(37)
+                                            VARLEN
+                K CUSTO00001
