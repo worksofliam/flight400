@@ -10,7 +10,9 @@ PGM_TARGETS=bcust.rpg bflght.rpg frs000.rpg frs001.rpg frs001.rpg frs001t.rpg \
 						frs009.rpg frs021.rpg frs022.rpg frs023.rpg frs024.rpg frs401.rpg \
 						frs402.rpg frs401b.rpg frs402.rpg frs402b.rpg frs405.rpg frs406.rpg \
 						frs407.rpg frs408.rpg frs409.rpg frs410.rpg frs411.rpg frs412.rpg \
-						frs412.rpg gtojcv.rpg rtdofw.rpg rtrand.rpg
+						frs412.rpg gtojcv.rpg rtdofw.rpg rtrand.rpg bldcst.clp frs001cl.clp \
+						frs411cl.clp msgprg.clp msgprgh.clp rtseed.clp testit.clp \
+						useclear.clp usereset.clp
 
 MENU_TARGETS=frsmain.mnucmd frsmant.mnucmd frsrept.mnucmd
 
@@ -26,6 +28,13 @@ all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS)
 
 
 ## Below are the generic targets
+
+%.clp: qclpsrc/%.clp
+	-system -qi "CRTSRCPF FILE($(BIN_LIB)/QCLPSRC) RCDLEN(112)"
+	system "CPYFRMSTMF FROMSTMF('$<') TOMBR('/QSYS.lib/$(BIN_LIB).lib/QCLPSRC.file/$*.mbr') MBROPT(*REPLACE)"
+	liblist -a $(LIBLIST);\
+	system $(SYSTEM) "CRTBNDCL PGM($(BIN_LIB)/$*) SRCFILE($(BIN_LIB)/QCLPSRC)"
+	@touch $@
 
 %.rpg: qrpgsrc/%.rpg
 	-system -qi "CRTSRCPF FILE($(BIN_LIB)/QRPGSRC) RCDLEN(112)"
