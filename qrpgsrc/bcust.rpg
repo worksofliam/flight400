@@ -11,13 +11,13 @@
      I                                        1  66 CUSTNM
      I I            64                    B   1   20FLDLEN
      I                                        3  66 CNAME
-     C*
+     C*                                                     * HELLO
      C  N77                Z-ADD1         CUSTNO  90 77     * UPDATE TIME LCV
      C*
      C           CUSTNO    DOWLE9999                        * FOR EACH DAY-O-WK
      C*
      C                     MOVE *BLANKS   CNAME
-     C*
+     C*                                                     * WORLD
      C                     Z-ADD1         BGNNBR  60        * START LCV TIMEDAY
      C                     Z-ADD4724      ENDNBR  60        * START LCV TIMEDAY
      C                     Z-ADD0         RTVNUM  60        * START LCV TIMEDAY
