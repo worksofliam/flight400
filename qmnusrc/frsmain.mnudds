@@ -34,7 +34,7 @@
      A* CMDPROMPT  Do not delete this DDS spec.
      A                                020  2'Selection or command              -
      A                                          '
-     A                                  5 10'Create a reservation for cus'
+     A                                  5 10'Create a New Reservation'
      A                                  6 10'Update an existing Reservation'
      A                                 15 10'Reservation System Reports'
      A                                 19  6'90.'
