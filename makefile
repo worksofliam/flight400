@@ -3,9 +3,9 @@ BIN_LIB_ILE=$(BIN_LIB)M
 SYSTEM=-s
 
 SHELL=/QOpenSys/usr/bin/qsh
-LIBLIST=$(BIN_LIB) $(BIN_LIB_ILE)
+LIBLIST=FLGHT400 $(BIN_LIB) $(BIN_LIB_ILE)
 
-LIB_TARGETS=FLGHT400 $(BIN_LIB).lib $(BIN_LIB_ILE).lib
+LIB_TARGETS=$(BIN_LIB).lib $(BIN_LIB_ILE).lib
 
 PGM_TARGETS=bcust.rpg bflght.rpg frs000.rpg frs001.rpg frs001.rpg frs001t.rpg \
             frs001u.rpg frs001u2.rpg frs002.rpg frs003.rpg frs004.rpg frs005.rpg \
