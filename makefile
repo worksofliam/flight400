@@ -3,7 +3,9 @@ BIN_LIB_ILE=$(BIN_LIB)M
 SYSTEM=-s
 
 SHELL=/QOpenSys/usr/bin/qsh
-LIBLIST=FLGHT400 FLGHT400M
+LIBLIST=$(BIN_LIB) $(BIN_LIB_ILE)
+
+LIB_TARGETS=$(BIN_LIB).lib $(BIN_LIB_ILE).lib
 
 PGM_TARGETS=bcust.rpg bflght.rpg frs000.rpg frs001.rpg frs001.rpg frs001t.rpg \
             frs001u.rpg frs001u2.rpg frs002.rpg frs003.rpg frs004.rpg frs005.rpg \
@@ -24,11 +26,15 @@ DSP_TARGETS=frs000df.dspf frs001df.dspf frs002df.dspf frs003df.dspf frs004df.dsp
 
 CMD_TARGETS=useclear.cmd usereset.cmd
 
-all: $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS) $(CMD_TARGETS)
+all: $(LIB_TARGETS) $(PGM_TARGETS) $(MENU_TARGETS) $(DSP_TARGETS) $(CMD_TARGETS)
 
 ## Below is the dep list
 
 ## Below are the generic targets
+
+%.lib:
+	-system -qi "CRTLIB LIB($*)"
+	@touch $@
 
 %.clp: qclpsrc/%.clp
 	-system -qi "CRTSRCPF FILE($(BIN_LIB)/QCLPSRC) RCDLEN(112)"
