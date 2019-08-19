@@ -1,6 +1,6 @@
 {
   "build": [{
     "command": "gmake",
-    "args": []
+    "args": ["BIN_LIB=FLGHT&branch-short"]
   }]
 }
