@@ -35,8 +35,8 @@
      A                                020  2'Selection or command              -
      A                                          '
      A                                  5 10'Create a New Reservation'
-     A                                  6 10'Update an existing Reservation'
-     A                                 15 10'Reservation System Reports'
+     A                                  6 10'Update an Reservation'
+     A                                 15 10'Reservation system reports'
      A                                 19  6'90.'
      A                                      DSPATR(HI)
      A                                 19 10'Signoff'
@@ -44,8 +44,6 @@
      A                                      COLOR(BLU)
      A                                  1 59DATE
      A                                      EDTCDE(Y)
-     A                                      COLOR(BLU)
-     A                                  1 72SYSNAME
      A                                      COLOR(BLU)
      A                                 12  6'10.'
      A                                      DSPATR(HI)
